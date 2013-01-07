@@ -1,0 +1,371 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{40E1947D-E0B5-4C99-827D-10F6AAEA1E89}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ConeTinue</RootNamespace>
+    <AssemblyName>ConeTinue</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <ExpressionBlendVersion>5.2.30810.0</ExpressionBlendVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Caliburn.Micro, Version=1.4.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Caliburn.Micro.dll</HintPath>
+    </Reference>
+    <Reference Include="Cone">
+      <HintPath>..\lib\Cone.dll</HintPath>
+    </Reference>
+    <Reference Include="EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="envdte80, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="RibbonControlsLibrary, Version=4.0.0.11019, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\RibbonControlsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\lib\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="UIAutomationTypes" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Controls\ExtendedTextBox.cs" />
+    <Compile Include="Converters\IconConverter.cs" />
+    <Compile Include="Converters\NotConverter.cs" />
+    <Compile Include="Converters\StatusImageConverter.cs" />
+    <Compile Include="Converters\TestRunStatusConverter.cs" />
+    <Compile Include="Converters\TestRunStatusIconConverter.cs" />
+    <Compile Include="Converters\TestTreeTemplateSelector.cs" />
+    <Compile Include="Domain\CrossDomain\AppDomainHolder.cs" />
+    <Compile Include="Domain\CrossDomain\InfoWriter.cs" />
+    <Compile Include="Domain\CrossDomain\CrossDomainTestRunner.cs" />
+    <Compile Include="Domain\CrossDomain\RemotingClient.cs" />
+    <Compile Include="Domain\CrossDomain\RemotingServer.cs" />
+    <Compile Include="Domain\CrossDomain\TestFailure.cs" />
+    <Compile Include="Domain\CrossDomain\TestInfo.cs" />
+    <Compile Include="Domain\CrossDomain\TestInfoWithAssembly.cs" />
+    <Compile Include="Domain\CrossDomain\TestProxy.cs" />
+    <Compile Include="Domain\IChangeValue.cs" />
+    <Compile Include="Domain\TestFilters\IncludeCategoriesFilter.cs" />
+    <Compile Include="Domain\TestRun.cs" />
+    <Compile Include="Domain\DelayedPropertyChangedBase.cs" />
+    <Compile Include="Domain\Icon.cs" />
+    <Compile Include="Domain\NoTestCategory.cs" />
+    <Compile Include="Domain\CrossDomain\IUpdateStatus.cs" />
+    <Compile Include="Domain\CrossDomain\RunTestLoggers.cs" />
+    <Compile Include="Domain\SettingsStrategy.cs" />
+    <Compile Include="Domain\StatusChangedEventArgs.cs" />
+    <Compile Include="Domain\TestAssembly.cs" />
+    <Compile Include="Domain\TestCategory.cs" />
+    <Compile Include="Domain\TestFilters\ClearFilters.cs" />
+    <Compile Include="Domain\TestFilters\ExcludeCategoriesFilter.cs" />
+    <Compile Include="Domain\TestFilters\FilterOnText.cs" />
+    <Compile Include="Domain\TestFilters\FilterTests.cs" />
+    <Compile Include="Domain\TestFilters\ShowOnlyTestsToRun.cs" />
+    <Compile Include="Domain\TestItem.cs" />
+    <Compile Include="Domain\TestItemHolder.cs" />
+    <Compile Include="Domain\CrossDomain\FindTestLoggers.cs" />
+    <Compile Include="Domain\TestKey.cs" />
+    <Compile Include="Domain\TestRunner.cs" />
+    <Compile Include="Domain\TestStatus.cs" />
+    <Compile Include="Domain\TimeSpanExtensions.cs" />
+    <Compile Include="Domain\VisualStudio\VisualStudioInstance.cs" />
+    <Compile Include="Domain\VisualStudio\VisualStudioVersion.cs" />
+    <Compile Include="External\DteFix\EnvDteConstants.cs" />
+    <Compile Include="External\ViewCollection.cs" />
+    <Compile Include="External\XtractPro\Text\SyntaxHighlighter.cs" />
+    <Compile Include="External\XtractPro\Text\CSharpSyntaxHighlighter.cs" />
+    <Compile Include="ViewModels\CategoryProvider.cs" />
+    <Compile Include="ViewModels\CurrentTestRunViewModel.cs" />
+    <Compile Include="ViewModels\FilterRibbonViewModel.cs" />
+    <Compile Include="ViewModels\FilterViewModel.cs" />
+    <Compile Include="ViewModels\ICanExecute.cs" />
+    <Compile Include="ViewModels\IRibbonControlViewModel.cs" />
+    <Compile Include="ViewModels\IRibbonControlViewProvider.cs" />
+    <Compile Include="ViewModels\ISubMenuProvider.cs" />
+    <Compile Include="ViewModels\Messages\AbortTestRun.cs" />
+    <Compile Include="ViewModels\Messages\AddTestAssembly.cs" />
+    <Compile Include="ViewModels\Messages\ClearTestSession.cs" />
+    <Compile Include="ViewModels\Messages\ErrorMessage.cs" />
+    <Compile Include="ViewModels\Messages\Exit.cs" />
+    <Compile Include="ViewModels\Messages\InfoMessage.cs" />
+    <Compile Include="ViewModels\Messages\NewTestsLoaded.cs" />
+    <Compile Include="ViewModels\Messages\ReloadTestSession.cs" />
+    <Compile Include="ViewModels\Messages\RemoveFilter.cs" />
+    <Compile Include="ViewModels\Messages\RunTests.cs" />
+    <Compile Include="ViewModels\Messages\StartingTestRun.cs" />
+    <Compile Include="ViewModels\Messages\StatusMessage.cs" />
+    <Compile Include="ViewModels\Messages\TestRunDone.cs" />
+    <Compile Include="ViewModels\Messages\TestRunStatus.cs" />
+    <Compile Include="ViewModels\Messages\TestRunType.cs" />
+    <Compile Include="ViewModels\Messages\UpdateTestRunStatus.cs" />
+    <Compile Include="ViewModels\ModifyTests.cs" />
+    <Compile Include="ViewModels\RecentHistoryProvider.cs" />
+    <Compile Include="ViewModels\RibbonBuilders\RibbonGroupBuilder.cs" />
+    <Compile Include="ViewModels\RibbonBuilders\RibbonTabBuilder.cs" />
+    <Compile Include="ViewModels\RibbonButtonViewModel.cs" />
+    <Compile Include="ViewModels\RibbonCheckboxViewModel.cs" />
+    <Compile Include="ViewModels\RibbonGroupViewModel.cs" />
+    <Compile Include="ViewModels\RibbonMenuItemViewModel.cs" />
+    <Compile Include="ViewModels\RibbonSplitButtonViewModel.cs" />
+    <Compile Include="ViewModels\RibbonSplitMenuItemViewModel.cs" />
+    <Compile Include="ViewModels\RibbonTabViewModel.cs" />
+    <Compile Include="ViewModels\RibbonViewModel.cs" />
+    <Compile Include="ViewModels\ShellViewModel.cs" />
+    <Compile Include="ViewModels\TestFailuresViewModel.cs" />
+    <Compile Include="ViewModels\TestSessionViewModel.cs" />
+    <Compile Include="ViewModels\TestsViewModel.cs" />
+    <Compile Include="Domain\CrossDomain\UpdateStatus.cs" />
+    <Compile Include="Views\RibbonSplitMenuItemView.xaml.cs">
+      <DependentUpon>RibbonSplitMenuItemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RibbonMenuItemView.xaml.cs">
+      <DependentUpon>RibbonMenuItemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RibbonSplitButtonView.xaml.cs">
+      <DependentUpon>RibbonSplitButtonView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CurrentTestRunView.xaml.cs">
+      <DependentUpon>CurrentTestRunView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FilterRibbonView.xaml.cs">
+      <DependentUpon>FilterRibbonView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FilterView.xaml.cs">
+      <DependentUpon>FilterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RibbonButtonView.xaml.cs">
+      <DependentUpon>RibbonButtonView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RibbonCheckboxView.xaml.cs">
+      <DependentUpon>RibbonCheckboxView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RibbonGroupView.xaml.cs">
+      <DependentUpon>RibbonGroupView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RibbonTabView.xaml.cs">
+      <DependentUpon>RibbonTabView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RibbonView.xaml.cs">
+      <DependentUpon>RibbonView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ShellView.xaml.cs">
+      <DependentUpon>ShellView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TestFailuresView.xaml.cs">
+      <DependentUpon>TestFailuresView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TestSessionView.xaml.cs">
+      <DependentUpon>TestSessionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TestsView.xaml.cs">
+      <DependentUpon>TestsView.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AppBootstrapper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="ConeTinueResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\RibbonSplitMenuItemView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\RibbonMenuItemView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\RibbonSplitButtonView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\CurrentTestRunView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FilterRibbonView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FilterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RibbonButtonView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RibbonCheckboxView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RibbonGroupView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RibbonTabView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RibbonView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ShellView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TestFailuresView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TestSessionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TestsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\019.png" />
+    <Resource Include="Images\020.png" />
+    <Resource Include="Images\021.png" />
+    <Resource Include="Images\028.png" />
+    <Resource Include="Images\029.png" />
+    <Resource Include="Images\030.png" />
+    <Resource Include="Images\058.png" />
+    <Resource Include="Images\059.png" />
+    <Resource Include="Images\060.png" />
+    <Resource Include="Images\069.png" />
+    <Resource Include="Images\071.png" />
+    <Resource Include="Images\onebit_08.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\004.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\052.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <DesignData Include="SampleData\FilterRibbonViewModelSampleData.xaml" />
+    <DesignData Include="SampleData\TestFailuresViewModelSampleData.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\onebit_49.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\onebit_02.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\034.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\onebit_47.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\01-onebit_05.png" />
+    <Resource Include="Images\01-onebit_06.png" />
+    <Resource Include="Images\01-onebit_07.png" />
+    <Resource Include="Images\01-onebit_08.png" />
+    <Resource Include="Images\01-onebit_09.png" />
+    <Resource Include="Images\01-onebit_10.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\040.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

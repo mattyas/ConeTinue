@@ -1,0 +1,26 @@
+﻿<r:RibbonSplitButton x:Class="ConeTinue.Views.RibbonSplitButtonView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:r="clr-namespace:Microsoft.Windows.Controls.Ribbon;assembly=RibbonControlsLibrary"
+                xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
+                xmlns:Converters="clr-namespace:ConeTinue.Converters" xmlns:l="clr-namespace:ConeTinue.External"
+                     mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300" Label="{Binding Path=DisplayName}" IsEnabled="{Binding CanExecute}" cal:Message.Attach="[Event Click]=[Action Execute()]" KeyTip="{Binding KeyTip}" HeaderKeyTip="{Binding HeaderKeyTip}" 
+                >
+    <r:RibbonSplitButton.Resources>
+        <ResourceDictionary>
+            <Converters:IconConverter x:Key="IconConverter" />
+        </ResourceDictionary>
+    </r:RibbonSplitButton.Resources>
+    <r:RibbonSplitButton.ItemsSource>
+        <l:ViewCollection Source="{Binding Path=Items}"/>
+    </r:RibbonSplitButton.ItemsSource>
+    <r:RibbonSplitButton.LargeImageSource>
+        <Binding Path="LargeIcon" Converter="{StaticResource IconConverter}" />
+    </r:RibbonSplitButton.LargeImageSource>
+    <r:RibbonSplitButton.SmallImageSource>
+        <Binding Path="SmallIcon" Converter="{StaticResource IconConverter}" />
+    </r:RibbonSplitButton.SmallImageSource>
+</r:RibbonSplitButton>

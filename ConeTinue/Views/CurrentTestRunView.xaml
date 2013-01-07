@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="ConeTinue.Views.CurrentTestRunView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:Converters="clr-namespace:ConeTinue.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Converters:TestRunStatusConverter x:Key="TestRunStatusConverter" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+        <GroupBox Header="Current test run">
+        <StackPanel>
+            <ProgressBar Minimum="0" Maximum="{Binding Count}" Value="{Binding CountFinished}" Height="20" Style="{DynamicResource ProgressBarStyle1}" Foreground="{Binding RunStatus, Converter={StaticResource TestRunStatusConverter}}" >
+            </ProgressBar>
+            <TextBlock Name="TestStatus">No tests</TextBlock>
+            <TextBlock Name="Status"></TextBlock>
+        </StackPanel>
+    </GroupBox>
+</UserControl>

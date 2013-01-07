@@ -1,0 +1,23 @@
+﻿<r:RibbonButton x:Class="ConeTinue.Views.RibbonButtonView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:r="clr-namespace:Microsoft.Windows.Controls.Ribbon;assembly=RibbonControlsLibrary"
+                xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
+                xmlns:Converters="clr-namespace:ConeTinue.Converters"
+                mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300" Label="{Binding Path=DisplayName}" IsEnabled="{Binding CanExecute}" cal:Message.Attach="[Event Click]=[Action Execute()]" KeyTip="{Binding KeyTip}"  
+                >
+    <r:RibbonButton.Resources>
+        <ResourceDictionary>
+            <Converters:IconConverter x:Key="IconConverter" />
+        </ResourceDictionary>
+    </r:RibbonButton.Resources>
+    <r:RibbonButton.LargeImageSource>
+        <Binding Path="LargeIcon" Converter="{StaticResource IconConverter}" />
+    </r:RibbonButton.LargeImageSource>
+    <r:RibbonButton.SmallImageSource>
+        <Binding Path="SmallIcon" Converter="{StaticResource IconConverter}" />
+    </r:RibbonButton.SmallImageSource>
+</r:RibbonButton>

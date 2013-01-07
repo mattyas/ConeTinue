@@ -1,0 +1,83 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
+             x:Class="ConeTinue.Views.TestFailuresView"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="400"
+             d:DataContext="{d:DesignData Source=../SampleData/TestFailuresViewModelSampleData.xaml}"
+             cal:Bind.AtDesignTime="True"
+             >
+    <TabControl>
+        <TabItem Header="Test failures">
+            <ListBox x:Name="Failures" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="Failures_OnSelectionChanged" HorizontalContentAlignment="Stretch" VirtualizingStackPanel.IsVirtualizing="True">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="4" BorderBrush="LightGray" BorderThickness="0,0,0,1">
+                            <DockPanel>
+                                <Image Source="pack://application:,,,/ConeTinue;component/Images/onebit_49.png" Width="32" Height="32" DockPanel.Dock="Left" Margin="4" VerticalAlignment="Top" />
+                                <TextBlock Text="{Binding TestName}" FontWeight="Bold" Margin="2,5,2,0" Grid.Row="0" DockPanel.Dock="Top" />
+                                <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" Margin="2">
+                                    <Button
+                                    Margin="2,4,2,8" x:Name="ErrorButton" Tag="{Binding}" cal:Message.Attach="[Event Click]=[Action OpenInVisualStudio(ErrorButton.Tag)]" Grid.Row="2" Content="Goto error in Visual Studio" Template="{DynamicResource VisualStudioButtonTemplate}">
+                                        <Button.Resources>
+                                    		<ControlTemplate x:Key="VisualStudioButtonTemplate" TargetType="{x:Type ButtonBase}">
+                                    			<Border Background="DimGray" CornerRadius="6" Padding="2" Name="BorderColor">
+                                                    <Border Background="Beige" Padding="4" CornerRadius="4" Name="FillColor">
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <Image Source="pack://application:,,,/ConeTinue;component/Images/onebit_02.png" Height="16" Width="16" Margin="4,0,4,0"></Image>
+                                    				<ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                                        </StackPanel>
+                                                    </Border>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                    				<Trigger Property="IsEnabled" Value="False">
+                                    					<Setter Property="Foreground" Value="#FFADADAD"/>
+                                    				</Trigger>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="BorderColor" Property="Background" Value="Black" />
+                                                    </Trigger>
+                                                    <Trigger Property="IsPressed" Value="True">
+                                                        <Setter TargetName="FillColor" Property="Background" Value="PowderBlue" />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                    		</ControlTemplate>
+                                    	</Button.Resources>
+                                        <Button.Style>
+                                            <Style TargetType="{x:Type Button}">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Line}" Value="0">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
+                                    </Button>
+                                </StackPanel>
+
+                                <TextBlock Text="{Binding Message}" TextWrapping="Wrap" Margin="2"  Grid.Row="1" />
+                            </DockPanel>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+
+        </TabItem>
+        <TabItem Header="Details">
+            <WebBrowser x:Name="Browser" Grid.Row="2"/>
+        </TabItem>
+        <TabItem Header="Output">
+            <ScrollViewer>
+            <TextBox Text="{Binding Info, Mode=OneWay}" IsReadOnly="True" />
+            </ScrollViewer>
+        </TabItem>
+    </TabControl>
+</UserControl>
