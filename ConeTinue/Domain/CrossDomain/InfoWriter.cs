@@ -30,7 +30,17 @@ namespace ConeTinue.Domain.CrossDomain
 				if (currentTestKey != null)
 				updateStatus.ReportInfo(string.Format("\r\n[Output from: {0}]\r\n", currentTestKey.FullName));
 			}
-			updateStatus.ReportInfo(value);
+
+			var chunkSize = 10000;
+			if (value.Length < chunkSize)
+				updateStatus.ReportInfo(value);
+			else
+			{
+				for (int i = 0; i < value.Length; i += chunkSize)
+				{
+					updateStatus.ReportInfo(value.Substring(i, Math.Min(chunkSize, value.Length - i)));
+				}
+			}
 		}
 
 		public override void WriteLine(string value)
