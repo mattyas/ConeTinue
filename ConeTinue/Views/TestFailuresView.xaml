@@ -12,7 +12,7 @@
              >
     <TabControl>
         <TabItem Header="Test failures">
-            <ListBox x:Name="Failures" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="Failures_OnSelectionChanged" HorizontalContentAlignment="Stretch" VirtualizingStackPanel.IsVirtualizing="True">
+            <ListBox x:Name="Failures" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="Failures_OnSelectionChanged" HorizontalContentAlignment="Stretch" VirtualizingStackPanel.IsVirtualizing="True" SelectedItem="{Binding SelectedFailure}">
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
                         <VirtualizingStackPanel />

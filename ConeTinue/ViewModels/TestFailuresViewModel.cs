@@ -13,6 +13,7 @@ namespace ConeTinue.ViewModels
 		private readonly IEventAggregator eventAggregator;
 		private readonly SettingsStrategy settings;
 		private readonly StringBuilder info = new StringBuilder();
+		private TestFailure selectedFailure;
 
 		public TestFailuresViewModel(IEventAggregator eventAggregator, SettingsStrategy settings)
 		{
@@ -23,10 +24,22 @@ namespace ConeTinue.ViewModels
 		}
 		
 		public ObservableCollection<TestFailure> Failures { get; private set; }
-		
+		public TestFailure SelectedFailure
+		{
+			get { return selectedFailure; }
+			set
+			{
+				if (Equals(value, selectedFailure)) return;
+				selectedFailure = value;
+				NotifyOfPropertyChange(() => SelectedFailure);
+			}
+		}
+
 		public void Handle(TestFailure message)
 		{
 			Failures.Add(message);
+			if (SelectedFailure == null)
+				SelectedFailure = message;
 		}
 
 		public void Handle(StartingTestRun message)
