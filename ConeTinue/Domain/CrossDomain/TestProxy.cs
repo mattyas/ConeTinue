@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using Cone.Core;
 using Cone.Runners;
 
 namespace ConeTinue.Domain.CrossDomain
@@ -28,6 +25,12 @@ namespace ConeTinue.Domain.CrossDomain
 			try
 			{
 				assembly = AppDomain.CurrentDomain.Load(AssemblyName.GetAssemblyName(AssemblyPath));
+				new SimpleConeRunner { Workers = Environment.ProcessorCount }
+					.RunTests(new TestSession(logger)
+					{
+						GetResultCollector = fixture => ((test, result) => result.Success())
+					}, new[] { assembly });
+				return tests.ToList();
 			}
 			catch (Exception)
 			{
@@ -37,12 +40,6 @@ namespace ConeTinue.Domain.CrossDomain
 				}
 				return new List<TestInfo>();
 			}
-			new SimpleConeRunner {Workers = Environment.ProcessorCount}
-				.RunTests(new TestSession(logger)
-					{
-						GetResultCollector = fixture => ((test, result) => result.Success())
-					}, new[] {assembly});
-			return tests.ToList();
 		}
 
 		public bool RunTests(HashSet<string> testsToRun, bool outputErrors)
@@ -94,5 +91,11 @@ namespace ConeTinue.Domain.CrossDomain
 		}
 
 		public volatile bool ShouldRunTests = true;
+
+		public void Init()
+		{
+			AppDomain.CurrentDomain.FirstChanceException += (sender, args) => { };
+			AppDomain.CurrentDomain.UnhandledException += (sender, args) => { };
+		}
 	}
 }

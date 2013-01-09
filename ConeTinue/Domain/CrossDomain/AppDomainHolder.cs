@@ -30,6 +30,7 @@ namespace ConeTinue.Domain.CrossDomain
 			                                  new StrongName[0]);
 
 			Proxy = (TestProxy) MyDomain.CreateInstanceFrom(typeof (TestProxy).Assembly.Location, typeof (TestProxy).FullName).Unwrap();
+			Proxy.Init();
 			Proxy.MyId = myId;
 			Proxy.AssemblyPath = testAssembly.AssemblyPath;
 		}

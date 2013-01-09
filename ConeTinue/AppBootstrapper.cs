@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using Caliburn.Micro;
 using ConeTinue.ViewModels;
 
@@ -12,6 +13,8 @@ namespace ConeTinue
 			Application.MainWindow.SizeToContent = SizeToContent.Manual;
 			Application.MainWindow.Height = 500;
 			Application.MainWindow.Width = 800;
+			AppDomain.CurrentDomain.FirstChanceException += (_, __) => { };
+			AppDomain.CurrentDomain.UnhandledException += (_, __) => { };
 		}
 	}
 }

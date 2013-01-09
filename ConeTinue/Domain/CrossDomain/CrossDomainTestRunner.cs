@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Caliburn.Micro;
 using ConeTinue.ViewModels.Messages;
@@ -19,28 +20,42 @@ namespace ConeTinue.Domain.CrossDomain
 			this.myId = myId;
 			this.settings = settings;
 		}
-		
+
 		public void FindTests(IEnumerable<TestAssembly> testAssemblies)
 		{
 			UnloadDomains();
 			var allTests = new SynchronizedCollection<TestInfoWithAssembly>();
+			var failedAssemblies = new List<TestAssembly>();
 			using (new RemotingServer(myId, eventAggregator))
 			{
 				foreach (var testAssembly in testAssemblies)
 				{
-					eventAggregator.Publish(new StatusMessage("Finding tests in " + testAssembly.AssemblyFileName));
+					try
+					{
 
-					var domainHolder = LoadDomain(testAssembly);
-					var tests = domainHolder.Proxy.FindTests();
-					foreach (var test in tests)
-						allTests.Add(test.WithAssembly(testAssembly));
-					eventAggregator.Publish(new StatusMessage("Done loading " + testAssembly.AssemblyFileName));
+						eventAggregator.Publish(new StatusMessage("Finding tests in " + testAssembly.AssemblyFileName));
+						var domainHolder = LoadDomain(testAssembly);
+						var tests = domainHolder.Proxy.FindTests();
+						foreach (var test in tests)
+							allTests.Add(test.WithAssembly(testAssembly));
+						eventAggregator.Publish(new StatusMessage("Done loading " + testAssembly.AssemblyFileName));
+					}
+					catch (Exception ex)
+					{
+						failedAssemblies.Add(testAssembly);
+						eventAggregator.Publish(new ErrorMessage("Failed loading " +testAssembly.AssemblyFileName + " wrong Cone version?"));
+						Debug.Write(ex);
+					}
+
 
 				}
+				testItemHolder = TestItemHolder.CreateFrom(allTests, settings.DefaultAllExpanded);
+				eventAggregator.Publish(new NewTestsLoaded(testItemHolder));
+				if (failedAssemblies.Any())
+					eventAggregator.Publish(new ErrorMessage("Done loading tests with errors in " + string.Join(", ", failedAssemblies.Select(x => x.AssemblyFileName))));
+				else
+					eventAggregator.Publish(new StatusMessage("Done loading tests"));
 			}
-			testItemHolder = TestItemHolder.CreateFrom(allTests, settings.DefaultAllExpanded);
-			eventAggregator.Publish(new NewTestsLoaded(testItemHolder));
-			eventAggregator.Publish(new StatusMessage("Done loading tests"));
 		}
 
 		private void UnloadDomains()
