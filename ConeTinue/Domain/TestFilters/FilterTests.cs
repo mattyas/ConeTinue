@@ -11,7 +11,6 @@ namespace ConeTinue.Domain.TestFilters
 		IncludeCategories
 	}
 
-	[Serializable]
 	public abstract class FilterTests
 	{
 		protected FilterTests(FilterType type)

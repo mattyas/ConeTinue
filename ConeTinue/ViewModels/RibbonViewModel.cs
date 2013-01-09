@@ -76,7 +76,8 @@ namespace ConeTinue.ViewModels
 					.WithItems(
 						AvailableWhenNotRunningTests(new RibbonSplitButtonViewModel("Add test assembly", OpenTestAssembly, Icon.AddTestAssembly, "H", "O", new RecentHistoryProvider(settingsStrategy, eventAggregator))),
 						AvailableWhenNotRunningTests(new RibbonButtonViewModel("Clear test session", () => eventAggregator.Publish(new ClearTestSession()), Icon.ClearTestSession, "C")),
-						AvailableWhenNotRunningTests(new RibbonButtonViewModel("Reload test session", () => eventAggregator.Publish(new ReloadTestSession()), Icon.ReloadTestSession, "L"))
+						AvailableWhenNotRunningTests(new RibbonButtonViewModel("Reload test session", () => eventAggregator.Publish(new ReloadTestSession()), Icon.ReloadTestSession, "L")),
+						AvailableWhenNotRunningTests(new RibbonButtonViewModel("Load test session from failed tests", LoadFromFailed, Icon.AddTestAssembly, "F"))
 						).Build(),
 					new RibbonGroupBuilder("Current test session")
 					.WithItems(testSessionViewModel).Build()
@@ -130,6 +131,18 @@ namespace ConeTinue.ViewModels
 			}
 			eventAggregator.Publish(new AddTestAssembly(openFile.FileName));
 		}
+
+		private void LoadFromFailed()
+		{
+			var openFile = new OpenFileDialog();
+			if (openFile.ShowDialog() == false)
+			{
+				return;
+			}
+			eventAggregator.Publish(new LoadTestAssemblyFromFailedTests(openFile.FileName));
+		}
+
+
 
 		public void Exit()
 		{

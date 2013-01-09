@@ -90,5 +90,6 @@ namespace ConeTinue.ViewModels
 			tests.RemoveFilter(message.Filter);
 			NotifyOfPropertyChange(() => Tests);
 		}
+
 	}
 }

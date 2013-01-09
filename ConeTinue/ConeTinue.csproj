@@ -150,6 +150,7 @@
     <Compile Include="ViewModels\Messages\ErrorMessage.cs" />
     <Compile Include="ViewModels\Messages\Exit.cs" />
     <Compile Include="ViewModels\Messages\InfoMessage.cs" />
+    <Compile Include="ViewModels\Messages\LoadTestAssemblyFromFailedTests.cs" />
     <Compile Include="ViewModels\Messages\NewTestsLoaded.cs" />
     <Compile Include="ViewModels\Messages\ReloadTestSession.cs" />
     <Compile Include="ViewModels\Messages\RemoveFilter.cs" />
