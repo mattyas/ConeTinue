@@ -106,7 +106,9 @@
     <Compile Include="Domain\CrossDomain\TestInfo.cs" />
     <Compile Include="Domain\CrossDomain\TestInfoWithAssembly.cs" />
     <Compile Include="Domain\CrossDomain\TestProxy.cs" />
+    <Compile Include="Domain\FindFailedTests.cs" />
     <Compile Include="Domain\IChangeValue.cs" />
+    <Compile Include="Domain\LoadTestFailureFromFileHandler.cs" />
     <Compile Include="Domain\TestFilters\IncludeCategoriesFilter.cs" />
     <Compile Include="Domain\TestRun.cs" />
     <Compile Include="Domain\DelayedPropertyChangedBase.cs" />

@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 using Caliburn.Micro;
 using ConeTinue.Domain.CrossDomain;
 using ConeTinue.ViewModels;
@@ -12,7 +11,7 @@ using ConeTinue.ViewModels.Messages;
 
 namespace ConeTinue.Domain
 {
-	public class TestRunner : IDisposable, IHandle<RunTests>, IHandle<ClearTestSession>, IHandle<AddTestAssembly>, IHandle<ReloadTestSession>, IHandle<AbortTestRun>, IHandle<LoadTestAssemblyFromFailedTests>, IHandle<TestRunDone>, IHandle<NewTestsLoaded>
+	public class TestRunner : IDisposable, IHandle<RunTests>, IHandle<ClearTestSession>, IHandle<AddTestAssembly>, IHandle<ReloadTestSession>, IHandle<AbortTestRun>
 	{
 		private readonly IEventAggregator eventAggregator;
 		private readonly SettingsStrategy settings;
@@ -108,82 +107,6 @@ namespace ConeTinue.Domain
 			watcher.Changed += (sender, args) => { if (settings.ReloadTestAssembliesWhenChanged) ReloadAssemblies(); };
 			fileSystemWatchers.Add(watcher);
 			watcher.EnableRaisingEvents = true;
-		}
-
-		public void Handle(LoadTestAssemblyFromFailedTests message)
-		{
-			try
-			{
-				testsToSelectOnNextReload = FindFailedTests.FindFailures(message.Path);
-				eventAggregator.Publish(new ClearTestSession());
-				eventAggregator.Publish(new TestFilters.ClearFilters());
-				foreach (var path in testsToSelectOnNextReload.Select(x => x.TestKey.TestAssembly.AssemblyPath).Distinct())
-				{
-					Handle(new AddTestAssembly(path));
-				}
-			}
-			catch (Exception ex)
-			{
-				eventAggregator.Publish(new ErrorMessage(ex.ToString()));
-			}
-
-		}
-
-		private TestFailure[] testsToSelectOnNextReload;
-
-			
-			public void Handle(TestRunDone message)
-			{
-				if (testsToSelectOnNextReload == null)
-					return;
-				if (message.TestRunType != TestRunType.FindTests)
-					return;
-				foreach (var testFailure in testsToSelectOnNextReload)
-				{
-					TestItem item;
-					if (tests.TryGetTest(testFailure.TestKey, out item))
-						item.Status = TestStatus.Failed;
-					eventAggregator.Publish(testFailure);	
-				}
-				eventAggregator.Publish(ModifyTests.CheckFailed);
-				eventAggregator.Publish(new TestFilters.ShowOnlyTestsToRun());
-				testsToSelectOnNextReload = null;
-			}
-		
-		public class FindFailedTests
-		{
-			public static TestFailure[] FindFailures(string path)
-			{
-				var xdoc = XElement.Load(path);
-				return xdoc.Elements("test-case")
-				.Where(x => x.Attribute("executed").Value == "True")
-				.Where(x => x.Attribute("success").Value == "False")
-				.Select(x => new TestFailure
-				{
-					TestKey = new TestKey() { FullName = x.Attribute("context").Value + "." + x.Attribute("name").Value, TestAssembly = new TestAssembly(x.Attribute("assembly").Value)},
-					File = x.Element("failure").Attribute("file").Value,
-					Line = ToInt(x.Element("failure").Attribute("line").Value),
-					Column = ToInt(x.Element("failure").Attribute("column").Value),
-					Message = x.Element("failure").Element("message").Value,
-					Context = x.Attribute("context").Value,
-					TestName = x.Attribute("name").Value
-				})
-				.ToArray();
-			}
-
-			public static int ToInt(string value)
-			{
-				int tmp;
-				if (int.TryParse(value, out tmp))
-					return tmp;
-				return 0;
-			}
-		}
-
-		private TestItemHolder tests = new TestItemHolder();
-		public void Handle(NewTestsLoaded message)
-		{
-			tests = message.Tests;
 		}
 	}
 }

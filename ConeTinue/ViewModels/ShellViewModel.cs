@@ -10,6 +10,7 @@ namespace ConeTinue.ViewModels
 		private readonly Guid myId = Guid.NewGuid();
 		private readonly IEventAggregator eventAggregator;
 		private readonly TestRunner testRunner;
+		private readonly LoadTestFailureFromFileHandler loadTestFailureFromFileHandler;
 
 		public ShellViewModel()
 		{
@@ -19,6 +20,7 @@ namespace ConeTinue.ViewModels
 
 			var settingsStrategy = new SettingsStrategy();
 			testRunner = new TestRunner(eventAggregator, myId, settingsStrategy);
+			loadTestFailureFromFileHandler = new LoadTestFailureFromFileHandler(eventAggregator);
 			Ribbon = new RibbonViewModel(eventAggregator, new TestSessionViewModel(testRunner.TestAssemblies), settingsStrategy);
 			TestsViewModel = new TestsViewModel(eventAggregator, settingsStrategy);
 			TestFailuresViewModel = new TestFailuresViewModel(eventAggregator, settingsStrategy);
