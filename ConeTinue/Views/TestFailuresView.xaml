@@ -75,9 +75,7 @@
             <WebBrowser x:Name="Browser" Grid.Row="2"/>
         </TabItem>
         <TabItem Header="Output">
-            <ScrollViewer>
-            <TextBox Text="{Binding Info, Mode=OneWay}" IsReadOnly="True" />
-            </ScrollViewer>
+            <TextBox Text="{Binding Info, Mode=OneWay}" IsReadOnly="True" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" />
         </TabItem>
     </TabControl>
 </UserControl>
