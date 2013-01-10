@@ -30,27 +30,28 @@ namespace ConeTinue.Domain.CrossDomain
 		}
 		public void Failure(ConeTestFailure failure)
 		{
-			SetTime();
 			failed(failure);
 			update(TestStatus.Failed);
 		}
 
 		public void Success()
 		{
-			SetTime();
 			update(TestStatus.Success);
 		}
 
 		public void Pending(string reason)
 		{
-			SetTime();
 			update(TestStatus.Pending);
 		}
 
 		public void Skipped()
 		{
-			SetTime();
 			update(TestStatus.Skipped);
+		}
+
+		public void EndTest()
+		{
+			SetTime();
 		}
 	}
 
@@ -81,6 +82,8 @@ namespace ConeTinue.Domain.CrossDomain
 			                              failure => updateStatus.Failed(new TestFailure(failure, testKey)),
 										  timeSpan => updateStatus.UpdateTestTime(testKey, timeSpan));
 		}
+
+		public void EndSuite() { }
 
 		public void Done() {infoWriter.SetCurrentTest(null); }
 		public void WriteInfo(Action<TextWriter> output)

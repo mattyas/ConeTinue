@@ -14,12 +14,16 @@ namespace ConeTinue.Domain.CrossDomain
 		public void Success() { }
 		public void Pending(string reason) { }
 		public void Skipped() { }
+		public void EndTest() { }
+
 		public ITestLogger BeginTest(IConeTest test)
 		{
 			var newTestItem = new TestInfo { Name = test.TestName.Name, FullName = test.TestName.FullName, Categories = test.Categories.ToList()};
 			tests.Add(newTestItem);
 			return this;
 		}
+
+		public void EndSuite() { }
 		public void Done() { }
 		private readonly SynchronizedCollection<TestInfo> tests;
 

@@ -89,7 +89,7 @@ namespace ConeTinue.Domain.CrossDomain
 
 		public void Failed(TestFailure failure)
 		{
-			Task.Factory.StartNew(() => eventAggregator.Publish(failure));
+			Task.Factory.StartNew(() => eventAggregator.Publish(new ReportFailures(failure)));
 		}
 
 		public void SetStatus(string message)
