@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using Cone.Runners;
 
 namespace ConeTinue.Domain.CrossDomain
@@ -85,6 +86,52 @@ namespace ConeTinue.Domain.CrossDomain
 			}
 			return true;
 		}
+
+		public FastTestReport RunTestsFast(HashSet<string> testsToRun, bool outputErrors)
+		{
+			ShouldRunTests = true;
+			var stringBuilder = new StringBuilder();
+			var infoWriter = new InfoWriter(stringBuilder);
+			var logger = new RunTestsFastLogger(testsToRun, TestAssembly, infoWriter);
+			var output = Console.Out;
+			var consoleTraceListener = new TextWriterTraceListener(infoWriter);
+			try
+			{
+				Console.SetOut(infoWriter);
+
+				if (outputErrors)
+					Debug.Listeners.Add(consoleTraceListener);
+				new SimpleConeRunner {Workers = 1}
+					.RunTests(new TestSession(logger)
+						{
+							ShouldSkipTest = test =>
+								{
+									if (!ShouldRunTests) throw new AbortTestsException();
+									return !testsToRun.Contains(test.TestName.FullName);
+								}
+						}, new[] {assembly});
+				logger.Report.IsSuccess = true;
+
+			}
+			catch (AbortTestsException)
+			{
+				logger.Report.IsSuccess = false;
+			}
+			catch (Exception ex)
+			{
+				logger.Report.Error = ex.ToString();
+				logger.Report.IsSuccess = false;
+			}
+			finally
+			{
+				Console.SetOut(output);
+				if (outputErrors)
+					Debug.Listeners.Remove(consoleTraceListener);
+			}
+			logger.Report.Output = stringBuilder.ToString();
+			return logger.Report;
+		}
+
 
 		public class AbortTestsException : Exception
 		{

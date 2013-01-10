@@ -13,20 +13,24 @@ namespace ConeTinue.Domain.CrossDomain
 	public class UpdateStatus : IUpdateStatus, IDisposable
 	{
 		private readonly IEventAggregator eventAggregator;
-		private readonly ConcurrentDictionary<TestStatus, int> counts = new ConcurrentDictionary<TestStatus, int>(); 
-		private readonly ConcurrentQueue<Tuple<TestKey,TestStatus>> statusUpdateQueue = new ConcurrentQueue<Tuple<TestKey, TestStatus>>(); 
-		private readonly Thread queueWorker;
+		private readonly ConcurrentDictionary<TestStatus, int> counts = new ConcurrentDictionary<TestStatus, int>();
+		private readonly ConcurrentQueue<Tuple<TestKey, TestStatus>> statusUpdateQueue = new ConcurrentQueue<Tuple<TestKey, TestStatus>>();
+		private readonly ConcurrentQueue<Tuple<TestKey, TimeSpan>> timingUpdateQueue = new ConcurrentQueue<Tuple<TestKey, TimeSpan>>();
+		private readonly Thread statusQueueWorker;
+		private readonly Thread timingQueueWorker;
 
 
 		public UpdateStatus(IEventAggregator eventAggregator)
 		{
 			this.eventAggregator = eventAggregator;
-			queueWorker = new Thread(SendQueue);
-			queueWorker.Start();
+			statusQueueWorker = new Thread(SendStatusQueue);
+			statusQueueWorker.Start();
+			timingQueueWorker = new Thread(SendTimingQueue);
+			timingQueueWorker.Start();
 		}
 
 		private volatile bool work = true;
-		private void SendQueue()
+		private void SendStatusQueue()
 		{
 			while (work || statusUpdateQueue.Count != 0)
 			{
@@ -47,6 +51,25 @@ namespace ConeTinue.Domain.CrossDomain
 			}
 		}
 
+		private void SendTimingQueue()
+		{
+			while (work || timingUpdateQueue.Count != 0)
+			{
+				Tuple<TestKey, TimeSpan> workItem;
+				if (!timingUpdateQueue.TryDequeue(out workItem))
+				{
+					if (!work)
+						return;
+					Thread.Sleep(200);
+					continue;
+				}
+
+				TestItem item;
+				if (tests.TryGetTest(workItem.Item1, out item))
+					item.RunTime = workItem.Item2;
+			}
+		}
+
 		private TestItemHolder tests;
 		public void SetTests(TestItemHolder testItemHolder)
 		{
@@ -56,22 +79,12 @@ namespace ConeTinue.Domain.CrossDomain
 		
 		public void Update(TestKey testKey, TestStatus status)
 		{
-			AddToQueue(testKey, status);
-		}
-
-		private void AddToQueue(TestKey testKey, TestStatus status)
-		{
 			statusUpdateQueue.Enqueue(new Tuple<TestKey, TestStatus>(testKey, status));
 		}
 
 		public void UpdateTestTime(TestKey testKey, TimeSpan time)
 		{
-			Task.Factory.StartNew(() =>
-				{
-					TestItem test;
-					if (tests.TryGetTest(testKey, out test))
-						test.RunTime = time;
-				});
+			timingUpdateQueue.Enqueue(new Tuple<TestKey, TimeSpan>(testKey, time));
 		}
 
 		public void Failed(TestFailure failure)

@@ -8,13 +8,13 @@ using Cone.Runners;
 
 namespace ConeTinue.Domain.CrossDomain
 {
-	internal class RunTestsTestLogger : ITestLogger
+	internal class RunTestsFastTestLogger : ITestLogger
 	{
 		private readonly Action<TestStatus> update;
 		private readonly Action<ConeTestFailure> failed;
 		private readonly Stopwatch stopwatch;
 		private readonly Action<TimeSpan> setTime;
-		public RunTestsTestLogger(Action<TestStatus> update, Action<ConeTestFailure> failed, Action<TimeSpan> setTime)
+		public RunTestsFastTestLogger(Action<TestStatus> update, Action<ConeTestFailure> failed, Action<TimeSpan> setTime)
 		{
 			this.update = update;
 			this.failed = failed;
@@ -54,19 +54,38 @@ namespace ConeTinue.Domain.CrossDomain
 		}
 	}
 
-	internal class RunTestsLogger : ISuiteLogger, ISessionLogger
+	[Serializable]
+	public class FastTestReport
 	{
-		private readonly IUpdateStatus updateStatus;
+		public Dictionary<TestKey, TestStatus> TestStatuses = new Dictionary<TestKey, TestStatus>();
+		public List<TestFailure> Failures = new List<TestFailure>();
+		public Dictionary<TestKey, TimeSpan> TestTimes = new Dictionary<TestKey, TimeSpan>();
+		public string Error;
+
+		public bool IsSuccess { get; set; }
+
+		public bool HasError
+		{
+			get { return Error != null; }
+		}
+
+		public string Output = string.Empty;
+	}
+
+	internal class RunTestsFastLogger : ISuiteLogger, ISessionLogger
+	{
 		private readonly HashSet<string> testToRun;
 		private readonly TestAssembly testAssembly;
 		private readonly InfoWriter infoWriter;
-
-		public RunTestsLogger(IUpdateStatus updateStatus, HashSet<string> testToRun, TestAssembly testAssembly, InfoWriter infoWriter)
+		private readonly FastTestReport report;
+		public FastTestReport Report { get { return report; } }
+		public RunTestsFastLogger(HashSet<string> testToRun, TestAssembly testAssembly, InfoWriter infoWriter)
 		{
-			this.updateStatus = updateStatus;
 			this.testToRun = testToRun;
 			this.testAssembly = testAssembly;
 			this.infoWriter = infoWriter;
+			report = new FastTestReport();
+
 		}
 
 		public ITestLogger BeginTest(IConeTest test)
@@ -76,10 +95,9 @@ namespace ConeTinue.Domain.CrossDomain
 				return new RunTestsTestLogger(_ => { }, _ => { }, _ => {});
 
 			infoWriter.SetCurrentTest(testKey);
-			updateStatus.Update(testKey, TestStatus.Running);
-			return new RunTestsTestLogger(status => updateStatus.Update(testKey, status),
-			                              failure => updateStatus.Failed(new TestFailure(failure, testKey)),
-										  timeSpan => updateStatus.UpdateTestTime(testKey, timeSpan));
+			return new RunTestsTestLogger(status => report.TestStatuses[testKey] = status,
+			                              failure => report.Failures.Add(new TestFailure(failure, testKey)),
+										  timeSpan => report.TestTimes[testKey] = timeSpan);
 		}
 
 		public void Done() {infoWriter.SetCurrentTest(null); }

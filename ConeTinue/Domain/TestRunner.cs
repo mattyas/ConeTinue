@@ -11,7 +11,7 @@ using ConeTinue.ViewModels.Messages;
 
 namespace ConeTinue.Domain
 {
-	public class TestRunner : IDisposable, IHandle<RunTests>, IHandle<ClearTestSession>, IHandle<AddTestAssembly>, IHandle<ReloadTestSession>, IHandle<AbortTestRun>
+	public class TestRunner : IDisposable, IHandle<RunTests>, IHandle<ClearTestSession>, IHandle<AddTestAssemblies>, IHandle<ReloadTestSession>, IHandle<AbortTestRun>
 	{
 		private readonly IEventAggregator eventAggregator;
 		private readonly SettingsStrategy settings;
@@ -63,7 +63,7 @@ namespace ConeTinue.Domain
 			Task.Factory.StartNew(() =>
 			{
 				eventAggregator.Publish(new StartingTestRun(TestRunType.RunTests));
-				bool success = testRunner.RunTests();
+				bool success = testRunner.RunTests(message.Fast);
 				eventAggregator.Publish(new TestRunDone(success ? TestRunType.RunTests : TestRunType.Aborted));
 			});
 		}
@@ -90,23 +90,26 @@ namespace ConeTinue.Domain
 			ReloadAssemblies();
 		}
 
-		public void Handle(AddTestAssembly message)
+		public void Handle(AddTestAssemblies message)
 		{
-			var newTestAssembly = new TestAssembly(message.Path);
-			if (testAssemblies.Any(x => x == newTestAssembly))
-				return;
-			settings.AddRecent(message.Path);
-			testAssemblies.Add(newTestAssembly);
-			for (int index = 0; index < testAssemblies.Count; index++)
+			foreach (var path in message.Paths)
 			{
-				var testAssembly = testAssemblies[index];
-				testAssembly.Number = index + 1;
+				var newTestAssembly = new TestAssembly(path);
+				if (testAssemblies.Any(x => x == newTestAssembly))
+					return;
+				settings.AddRecent(path);
+				testAssemblies.Add(newTestAssembly);
+				for (int index = 0; index < testAssemblies.Count; index++)
+				{
+					var testAssembly = testAssemblies[index];
+					testAssembly.Number = index + 1;
+				}
+				var watcher = new FileSystemWatcher(newTestAssembly.AssemblyDirectory, newTestAssembly.AssemblyFileName);
+				watcher.Changed += (sender, args) => { if (settings.ReloadTestAssembliesWhenChanged) ReloadAssemblies(); };
+				fileSystemWatchers.Add(watcher);
+				watcher.EnableRaisingEvents = true;
 			}
 			ReloadAssemblies();
-			var watcher = new FileSystemWatcher(newTestAssembly.AssemblyDirectory, newTestAssembly.AssemblyFileName);
-			watcher.Changed += (sender, args) => { if (settings.ReloadTestAssembliesWhenChanged) ReloadAssemblies(); };
-			fileSystemWatchers.Add(watcher);
-			watcher.EnableRaisingEvents = true;
 		}
 	}
 }

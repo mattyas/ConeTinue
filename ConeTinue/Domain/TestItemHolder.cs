@@ -242,6 +242,8 @@ namespace ConeTinue.Domain
 			foreach (var item in allItems.Values)
 			{
 				item.IsInLatestRun = false;
+				if (item.Status == TestStatus.InQueue)
+					item.Status = TestStatus.Unknown;
 			}
 
 			foreach (var test in GetAllVisibleTests().Where(test => test.EffectiveShouldRun))

@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using Caliburn.Micro;
 using ConeTinue.ViewModels.Messages;
 
@@ -78,23 +79,13 @@ namespace ConeTinue.Domain.CrossDomain
 		}
 
 
-		public bool RunTests()
+		public bool RunTests(bool runFast)
 		{
 			try
 			{
-				using (new RemotingServer(myId, eventAggregator, testItemHolder))
-				{
-					testItemHolder.MarkTestToRun();
-					foreach (var domain in domains.Values)
-					{
-						var testsToRun = new HashSet<string>(testItemHolder.GetTestToRun(domain.Proxy.TestAssembly).Select(x => x.FullName));
-						if (testsToRun.Count == 0)
-							continue;
-						if (!domain.Proxy.RunTests(testsToRun, settings.OutputDebugAndError))
-							return false;
-					}
-					return true;
-				}
+				if (runFast)
+					return RunTestsFast();
+				return RunTestsWithFullReporting();
 			}
 			catch (Exception ex)
 			{
@@ -102,7 +93,60 @@ namespace ConeTinue.Domain.CrossDomain
 				return false;
 			}
 		}
-		
+
+		private bool RunTestsFast()
+		{
+			testItemHolder.MarkTestToRun();
+			var reports = new List<FastTestReport>();
+			foreach (var domain in domains.Values)
+			{
+				var testsToRun = new HashSet<string>(testItemHolder.GetTestToRun(domain.Proxy.TestAssembly).Select(x => x.FullName));
+				if (testsToRun.Count == 0)
+					continue;
+				var report = domain.Proxy.RunTestsFast(testsToRun, settings.OutputDebugAndError);
+				reports.Add(report);
+			}
+			foreach (var report in reports)
+			{
+				foreach (var statuses in report.TestStatuses)
+				{
+					TestItem item;
+					if (testItemHolder.TryGetTest(statuses.Key, out item))
+						item.Status = statuses.Value;
+				}
+				if (report.HasError)
+					eventAggregator.Publish(new ErrorMessage(report.Error));
+				foreach (var testTime in report.TestTimes)
+				{
+					TestItem item;
+					if (testItemHolder.TryGetTest(testTime.Key, out item))
+						item.RunTime = testTime.Value;
+				}
+				eventAggregator.Publish(new InfoMessage(report.Output));
+				eventAggregator.Publish(new ReportFailures(report.Failures.ToArray()));
+			}
+			if (reports.Count == 0)
+				return true;
+			return reports.All(r => r.IsSuccess);
+		}
+
+		private bool RunTestsWithFullReporting()
+		{
+			using (new RemotingServer(myId, eventAggregator, testItemHolder))
+			{
+				testItemHolder.MarkTestToRun();
+				foreach (var domain in domains.Values)
+				{
+					var testsToRun = new HashSet<string>(testItemHolder.GetTestToRun(domain.Proxy.TestAssembly).Select(x => x.FullName));
+					if (testsToRun.Count == 0)
+						continue;
+					if (!domain.Proxy.RunTests(testsToRun, settings.OutputDebugAndError))
+						return false;
+				}
+				return true;
+			}
+		}
+
 		public void AbortTests()
 		{
 			foreach (var domain in domains.Values)

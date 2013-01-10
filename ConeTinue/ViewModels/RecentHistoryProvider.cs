@@ -27,7 +27,7 @@ namespace ConeTinue.ViewModels
 			{
 				string localPath = path;
 				items.Add(new RibbonSplitMenuItemViewModel(path,
-				                                           () => eventAggregator.Publish(new AddTestAssembly(localPath)),
+				                                           () => eventAggregator.Publish(new AddTestAssemblies(localPath)),
 				                                           Icon.AddTestAssembly, keyTip: (i++).ToString()));
 			}
 			NotifyOfPropertyChange(() => Items);

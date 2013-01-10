@@ -70,7 +70,8 @@ namespace ConeTinue.ViewModels
 					new RibbonGroupBuilder("Run")
 					.WithItems(
 						AvailableWhenNotRunningTests(new RibbonButtonViewModel("Run", () => eventAggregator.Publish(new RunTests()),Icon.Run, "R")),
-						AvailableWhenRunningTests(new RibbonButtonViewModel("Abort", () => eventAggregator.Publish(new AbortTestRun()),Icon.AbortTestRun, "A", canExecute: false))
+						AvailableWhenRunningTests(new RibbonButtonViewModel("Abort", () => eventAggregator.Publish(new AbortTestRun()),Icon.AbortTestRun, "A", canExecute: false)),
+						AvailableWhenNotRunningTests(new RibbonButtonViewModel("Run Fast", () => eventAggregator.Publish(new RunTests(true)),Icon.Run, "F"))
 						).Build(),
 					new RibbonGroupBuilder("Test session")
 					.WithItems(
@@ -129,7 +130,7 @@ namespace ConeTinue.ViewModels
 			{
 				return;
 			}
-			eventAggregator.Publish(new AddTestAssembly(openFile.FileName));
+			eventAggregator.Publish(new AddTestAssemblies(openFile.FileName));
 		}
 
 		private void LoadFromFailed()

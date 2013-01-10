@@ -24,10 +24,8 @@ namespace ConeTinue.Domain
 				testsToSelectOnNextReload = FindFailedTests.FindFailures(message.Path);
 				eventAggregator.Publish(new ClearTestSession());
 				eventAggregator.Publish(new TestFilters.ClearFilters());
-				foreach (var path in testsToSelectOnNextReload.Select(x => x.TestKey.TestAssembly.AssemblyPath).Distinct())
-				{
-					eventAggregator.Publish(new AddTestAssembly(path));
-				}
+				var paths = testsToSelectOnNextReload.Select(x => x.TestKey.TestAssembly.AssemblyPath).Distinct().ToArray();
+				eventAggregator.Publish(new AddTestAssemblies(paths));
 			}
 			catch (Exception ex)
 			{
@@ -50,8 +48,8 @@ namespace ConeTinue.Domain
 				TestItem item;
 				if (tests.TryGetTest(testFailure.TestKey, out item))
 					item.Status = TestStatus.Failed;
-				eventAggregator.Publish(testFailure);
 			}
+			eventAggregator.Publish(new ReportFailures(testsToSelectOnNextReload));
 			eventAggregator.Publish(ModifyTests.CheckFailed);
 			eventAggregator.Publish(new TestFilters.ShowOnlyTestsToRun());
 			testsToSelectOnNextReload = null;

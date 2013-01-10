@@ -8,7 +8,7 @@ using ConeTinue.ViewModels.Messages;
 
 namespace ConeTinue.ViewModels
 {
-	public class TestFailuresViewModel : PropertyChangedBase, IHandle<TestFailure>, IHandle<StartingTestRun>, IHandle<InfoMessage>
+	public class TestFailuresViewModel : PropertyChangedBase, IHandle<ReportFailures>, IHandle<StartingTestRun>, IHandle<InfoMessage>
 	{
 		private readonly IEventAggregator eventAggregator;
 		private readonly SettingsStrategy settings;
@@ -35,11 +35,14 @@ namespace ConeTinue.ViewModels
 			}
 		}
 
-		public void Handle(TestFailure message)
+		public void Handle(ReportFailures message)
 		{
-			Failures.Add(message);
-			if (SelectedFailure == null)
-				SelectedFailure = message;
+			foreach (var failure in message.Failures)
+			{
+				Failures.Add(failure);
+				if (SelectedFailure == null)
+					SelectedFailure = failure;
+			}
 		}
 
 		public void Handle(StartingTestRun message)

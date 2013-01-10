@@ -6,7 +6,7 @@ namespace ConeTinue.Domain.CrossDomain
 {
 	public class InfoWriter : TextWriter
 	{
-		private readonly IUpdateStatus updateStatus;
+		private readonly Action<string> write;
 
 
 		public override Encoding Encoding
@@ -19,7 +19,12 @@ namespace ConeTinue.Domain.CrossDomain
 
 		public InfoWriter(IUpdateStatus updateStatus)
 		{
-			this.updateStatus = updateStatus;
+			write = updateStatus.ReportInfo;
+		}
+
+		public InfoWriter(StringBuilder stringBuilder)
+		{
+			write = info => stringBuilder.Append(info);
 		}
 
 		public override void Write(string value)
@@ -28,17 +33,17 @@ namespace ConeTinue.Domain.CrossDomain
 			{
 				lastTestKey = currentTestKey;
 				if (currentTestKey != null)
-				updateStatus.ReportInfo(string.Format("\r\n[Output from: {0}]\r\n", currentTestKey.FullName));
+				write(string.Format("\r\n[Output from: {0}]\r\n", currentTestKey.FullName));
 			}
 
 			var chunkSize = 10000;
 			if (value.Length < chunkSize)
-				updateStatus.ReportInfo(value);
+				write(value);
 			else
 			{
 				for (int i = 0; i < value.Length; i += chunkSize)
 				{
-					updateStatus.ReportInfo(value.Substring(i, Math.Min(chunkSize, value.Length - i)));
+					write(value.Substring(i, Math.Min(chunkSize, value.Length - i)));
 				}
 			}
 		}
