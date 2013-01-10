@@ -58,11 +58,13 @@ namespace ConeTinue.ViewModels
 			QuickItems = new BindableCollection<IRibbonControlViewModel>
 				{
 					AvailableWhenNotRunningTests(new RibbonButtonViewModel("Run", () => eventAggregator.Publish(new RunTests()),
-					                                                       Icon.Run, "R")),
+					                                                       Icon.Run, "R", showToolTip: true)),
 					AvailableWhenRunningTests(new RibbonButtonViewModel("Abort", () => eventAggregator.Publish(new AbortTestRun()),
-					                                                    Icon.AbortTestRun, "A", canExecute: false)),
+					                                                    Icon.AbortTestRun, "A", canExecute: false, showToolTip: true)),
 					AvailableWhenNotRunningTests(new RibbonSplitButtonViewModel("Add test assembly", OpenTestAssembly,
-					                                                            Icon.AddTestAssembly, "H","O", new RecentHistoryProvider(settingsStrategy, eventAggregator)))
+					                                                            Icon.AddTestAssembly, "H","O", new RecentHistoryProvider(settingsStrategy, eventAggregator), showToolTip: true)),
+					AvailableWhenNotRunningTests(new RibbonButtonViewModel("Select and show only failed", SelectAndShowOnlyFailed, Icon.Error, "T", showToolTip: true)),
+					AvailableWhenNotRunningTests(new RibbonButtonViewModel("Clear filter", () => eventAggregator.Publish(new ClearFilters()), Icon.ClearFilters,"X", showToolTip: true))
 
 				};
 			Tabs = new BindableCollection<RibbonTabViewModel> {
@@ -71,14 +73,14 @@ namespace ConeTinue.ViewModels
 					.WithItems(
 						AvailableWhenNotRunningTests(new RibbonButtonViewModel("Run", () => eventAggregator.Publish(new RunTests()),Icon.Run, "R")),
 						AvailableWhenRunningTests(new RibbonButtonViewModel("Abort", () => eventAggregator.Publish(new AbortTestRun()),Icon.AbortTestRun, "A", canExecute: false)),
-						AvailableWhenNotRunningTests(new RibbonButtonViewModel("Run Fast", () => eventAggregator.Publish(new RunTests(true)),Icon.Run, "F"))
+						AvailableWhenNotRunningTests(new RibbonButtonViewModel("Run Fast", () => eventAggregator.Publish(new RunTests(true)),Icon.RunFast, "F"))
 						).Build(),
 					new RibbonGroupBuilder("Test session")
 					.WithItems(
 						AvailableWhenNotRunningTests(new RibbonSplitButtonViewModel("Add test assembly", OpenTestAssembly, Icon.AddTestAssembly, "H", "O", new RecentHistoryProvider(settingsStrategy, eventAggregator))),
 						AvailableWhenNotRunningTests(new RibbonButtonViewModel("Clear test session", () => eventAggregator.Publish(new ClearTestSession()), Icon.ClearTestSession, "C")),
 						AvailableWhenNotRunningTests(new RibbonButtonViewModel("Reload test session", () => eventAggregator.Publish(new ReloadTestSession()), Icon.ReloadTestSession, "L")),
-						AvailableWhenNotRunningTests(new RibbonButtonViewModel("Load test session from failed tests", LoadFromFailed, Icon.AddTestAssembly, "F"))
+						AvailableWhenNotRunningTests(new RibbonButtonViewModel("Load test session from failed tests", LoadFromFailed, Icon.LoadTestSessionFromFailedTests, "F"))
 						).Build(),
 					new RibbonGroupBuilder("Current test session")
 					.WithItems(testSessionViewModel).Build()
@@ -97,8 +99,8 @@ namespace ConeTinue.ViewModels
 					).Build(),
 				new RibbonTabBuilder("Filters","F").WithRibbonGroups(
 					new RibbonGroupBuilder("Filters").WithItems(
-						new RibbonButtonViewModel("Clear filter", () => eventAggregator.Publish(new ClearFilters()), Icon.ClearFilters,"X"),
-						new RibbonButtonViewModel("Show only tests to run", () => eventAggregator.Publish(new ShowOnlyTestsToRun()), Icon.ShowOnlyTestsToRun,"R")
+						AvailableWhenNotRunningTests(new RibbonButtonViewModel("Clear filter", () => eventAggregator.Publish(new ClearFilters()), Icon.ClearFilters,"X")),
+						AvailableWhenNotRunningTests(new RibbonButtonViewModel("Show only tests to run", () => eventAggregator.Publish(new ShowOnlyTestsToRun()), Icon.ShowOnlyTestsToRun,"R"))
 						).Build(),
 					new RibbonGroupBuilder("Current filters").WithItems(new FilterRibbonViewModel(eventAggregator)).Build()
 					).Build(),
@@ -143,7 +145,12 @@ namespace ConeTinue.ViewModels
 			eventAggregator.Publish(new LoadTestAssemblyFromFailedTests(openFile.FileName));
 		}
 
-
+		private void SelectAndShowOnlyFailed()
+		{
+			eventAggregator.Publish(ModifyTests.CheckFailed);
+			eventAggregator.Publish(new ShowOnlyTestsToRun());
+			eventAggregator.Publish(ModifyTests.ExpandOnlyTestsToRun);
+		}
 
 		public void Exit()
 		{

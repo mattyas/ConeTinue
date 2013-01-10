@@ -7,7 +7,7 @@
                 xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
                 xmlns:Converters="clr-namespace:ConeTinue.Converters" xmlns:l="clr-namespace:ConeTinue.External"
                      mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" Label="{Binding Path=DisplayName}" IsEnabled="{Binding CanExecute}" cal:Message.Attach="[Event Click]=[Action Execute()]" KeyTip="{Binding KeyTip}" HeaderKeyTip="{Binding HeaderKeyTip}" 
+             d:DesignHeight="300" d:DesignWidth="300" Label="{Binding Path=DisplayName}" ToolTipTitle="{Binding ToolTip}" IsEnabled="{Binding CanExecute}" cal:Message.Attach="[Event Click]=[Action Execute()]" KeyTip="{Binding KeyTip}" HeaderKeyTip="{Binding HeaderKeyTip}" 
                 >
     <r:RibbonSplitButton.Resources>
         <ResourceDictionary>

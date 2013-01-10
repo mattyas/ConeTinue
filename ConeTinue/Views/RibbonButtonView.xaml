@@ -7,7 +7,7 @@
                 xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
                 xmlns:Converters="clr-namespace:ConeTinue.Converters"
                 mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" Label="{Binding Path=DisplayName}" IsEnabled="{Binding CanExecute}" cal:Message.Attach="[Event Click]=[Action Execute()]" KeyTip="{Binding KeyTip}"  
+             d:DesignHeight="300" d:DesignWidth="300" Label="{Binding Path=DisplayName}" ToolTip="{Binding Path=ToolTip}" IsEnabled="{Binding CanExecute}" cal:Message.Attach="[Event Click]=[Action Execute()]" KeyTip="{Binding KeyTip}"  
                 >
     <r:RibbonButton.Resources>
         <ResourceDictionary>

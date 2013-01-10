@@ -19,6 +19,8 @@ namespace ConeTinue.Domain
 		Info,
 		Error,
 		Category,
-		VisualStudio
+		VisualStudio,
+		RunFast,
+		LoadTestSessionFromFailedTests
 	}
 }

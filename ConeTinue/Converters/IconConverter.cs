@@ -48,6 +48,10 @@ namespace ConeTinue.Converters
 					return CreateImageFromPath("onebit_49.png");
 				case Icon.VisualStudio:
 					return CreateImageFromPath("onebit_02.png");
+				case Icon.RunFast:
+					return CreateImageFromPath("bonus48x48_20.png");
+				case Icon.LoadTestSessionFromFailedTests:
+					return CreateImageFromPath("027.png");
 			}
 			return null;
 

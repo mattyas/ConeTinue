@@ -11,7 +11,7 @@ namespace ConeTinue.ViewModels
 		private bool canExecute;
 		public BindableCollection<RibbonSplitMenuItemViewModel> Items { get; private set; }
 
-		public RibbonSplitButtonViewModel(string displayName, System.Action execute, Icon icon, string keyTip, string headerKeyTip, ISubMenuProvider subMenuProvider = null, IEnumerable<RibbonSplitMenuItemViewModel> items = null, bool canExecute = true)
+		public RibbonSplitButtonViewModel(string displayName, System.Action execute, Icon icon, string keyTip, string headerKeyTip, ISubMenuProvider subMenuProvider = null, IEnumerable<RibbonSplitMenuItemViewModel> items = null, bool canExecute = true, bool showToolTip = false)
 		{
 			Items = new BindableCollection<RibbonSplitMenuItemViewModel>(items ?? new RibbonSplitMenuItemViewModel[0]);
 			if (subMenuProvider != null)
@@ -26,6 +26,9 @@ namespace ConeTinue.ViewModels
 			SmallIcon = icon;
 			KeyTip = keyTip;
 			HeaderKeyTip = headerKeyTip;
+			if (showToolTip)
+				ToolTip = displayName;
+
 			base.DisplayName = displayName;
 		}
 
@@ -52,6 +55,7 @@ namespace ConeTinue.ViewModels
 			}
 		}
 
+		public string ToolTip { get; private set; }
 		public Icon LargeIcon { get; private set; }
 		public Icon SmallIcon { get; private set; }
 		public string KeyTip { get; private set; }

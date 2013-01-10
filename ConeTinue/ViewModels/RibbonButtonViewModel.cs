@@ -3,18 +3,20 @@ using ConeTinue.Domain;
 
 namespace ConeTinue.ViewModels
 {
-	public class RibbonButtonViewModel : Screen, IRibbonControlViewModel, ICanExecute
+	public class RibbonButtonViewModel : Screen, ICanExecute
 	{
 		private readonly System.Action execute;
 		private bool canExecute;
 
-		public RibbonButtonViewModel(string displayName, System.Action execute, Icon icon, string keyTip, bool canExecute = true)
+		public RibbonButtonViewModel(string displayName, System.Action execute, Icon icon, string keyTip, bool canExecute = true, bool showToolTip = false)
 		{
 			this.canExecute = canExecute;
 			this.execute = execute;
 			LargeIcon = icon;
 			SmallIcon = icon;
 			KeyTip = keyTip;
+			if (showToolTip)
+				ToolTip = displayName;
 			base.DisplayName = displayName;
 		}
 
@@ -34,6 +36,7 @@ namespace ConeTinue.ViewModels
 			}
 		}
 
+		public object ToolTip { get; private set; }
 		public Icon LargeIcon { get; private set; }
 		public Icon SmallIcon { get; private set; }
 		public string KeyTip { get; private set; }
