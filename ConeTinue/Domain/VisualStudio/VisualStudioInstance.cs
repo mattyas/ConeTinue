@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Linq;
 using ConeTinue.Domain.CrossDomain;
 using ConeTinue.External.DteFix;
 
@@ -19,7 +20,7 @@ namespace ConeTinue.Domain.VisualStudio
 					var dte = (EnvDTE.DTE)System.Runtime.InteropServices.Marshal.GetActiveObject(visualStudioVersion.Key);
 					if (null == dte) 
 						continue;
-					var fileName = failure.File;
+					var fileName = failure.StackTrace.First(x => x.HasSource).File;
 					if (dte.Solution.FindProjectItem(fileName) != null)
 					{
 						visualStudioInstance = new VisualStudioInstance(visualStudioVersion, dte, settings);
@@ -53,13 +54,14 @@ namespace ConeTinue.Domain.VisualStudio
 		{
 			try
 			{
-				var fileName = failure.File;
+				var stackFrame = failure.StackTrace.Last(x => x.HasSource);
+				var fileName = stackFrame.File;
 				EnvDTE.ProjectItem ptojItem = Dte.Solution.FindProjectItem(fileName);
 				if (null != ptojItem)
 				{
 					ptojItem.Open(EnvDteConstants.vsViewKindCode).Activate();
 					var textSelection = (EnvDTE.TextSelection)Dte.ActiveDocument.Selection;
-					textSelection.MoveToLineAndOffset(failure.Line, failure.Column, true);
+					textSelection.MoveToLineAndOffset(stackFrame.Line, stackFrame.Column, true);
 					textSelection.SelectLine();
 				}
 			}
@@ -106,6 +108,10 @@ namespace ConeTinue.Domain.VisualStudio
 				owPane.Clear();
 				owPane.OutputString("Test: " + failure.TestName + Environment.NewLine);
 				owPane.OutputString(failure.Message + Environment.NewLine + Environment.NewLine);
+				foreach (var stackTrace in failure.StackTrace)
+				{
+					owPane.OutputString(stackTrace + Environment.NewLine);
+				}
 			}
 			catch (Exception ex)
 			{

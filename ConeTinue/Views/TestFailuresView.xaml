@@ -7,8 +7,6 @@
              x:Class="ConeTinue.Views.TestFailuresView"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="400"
-             d:DataContext="{d:DesignData Source=../SampleData/TestFailuresViewModelSampleData.xaml}"
-             cal:Bind.AtDesignTime="True"
              >
     <TabControl>
         <TabItem Header="Test failures">
@@ -53,7 +51,7 @@
                                         <Button.Style>
                                             <Style TargetType="{x:Type Button}">
                                                 <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Line}" Value="0">
+                                                    <DataTrigger Binding="{Binding HasSource}" Value="False">
                                                         <Setter Property="Visibility" Value="Collapsed" />
                                                     </DataTrigger>
                                                 </Style.Triggers>

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
+using System.Text;
 using System.Windows.Controls;
 using ConeTinue.Domain.CrossDomain;
 
@@ -25,25 +27,36 @@ namespace ConeTinue.Views
 			
 		}
 
-		private static string GetHtml(TestFailure failure)
+		private static string GetHtml(TestFailure failurex)
 		{
-			string readAllText; 
-			if (string.IsNullOrEmpty(failure.File))
+			string readAllText;
+			var stackFrame = failurex.StackTrace.LastOrDefault(x => x.HasSource);
+			if (stackFrame == null)
 			{
-				return "<html><!--" + (failure.Line) + "--></html>";
+				var sb = new StringBuilder();
+				sb.Append("<html>");
+				sb.Append("<h1>");
+				sb.Append(failurex.TestName);
+				sb.Append("</h1>");
+				sb.Append(failurex.Message);
+				sb.Append("<hr />");
+				foreach (var stack in failurex.StackTrace)
+				{
+					sb.Append(stack);
+					sb.AppendLine("<br />");
+				}
+				sb.Append("</html>");
+				return sb.ToString();
 			}
-			else
-			{
-				readAllText = File.ReadAllText(failure.File);
-			}
-			
+			readAllText = File.ReadAllText(stackFrame.File);
+
 
 			string codeAsHtml = new External.XtractPro.Text.CSharpSyntaxHighlighter
 				{
 					ShowCollapsibleBlocks = false, ShowComments = true, ShowHyperlinks = false, ShowLineNumbers = true, LineNumberSpaces = 4, ShowRtf = false,
-				}.Process(readAllText).Replace("<!--" + (failure.Line) + "-->", "<div id=\"the_error\"><h1>" + failure.TestName + "</h1>" + failure.Message.Replace("\n", "<br />") + "</div>");
+				}.Process(readAllText).Replace("<!--" + (stackFrame.Line) + "-->", "<div id=\"the_error\"><h1>" + failurex.TestName + "</h1>" + failurex.Message.Replace("\n", "<br />") + "</div>");
 
-			return docTemplate.Replace("[error-id]", failure.Line.ToString()) + codeAsHtml + docTemplateEnd.Replace("[line-before-error]", Math.Max(1, failure.Line-3).ToString());
+			return docTemplate.Replace("[error-id]", stackFrame.Line.ToString()) + codeAsHtml + docTemplateEnd.Replace("[line-before-error]", Math.Max(1, stackFrame.Line-3).ToString());
 		}
 
 		private const string docTemplate = @"<html>

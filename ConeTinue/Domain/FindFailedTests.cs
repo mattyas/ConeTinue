@@ -13,16 +13,15 @@ namespace ConeTinue.Domain
 			return xdoc.Elements("test-case")
 			           .Where(x => x.Attribute("executed").Value == "True")
 			           .Where(x => x.Attribute("success").Value == "False")
-			           .Select(x => new TestFailure
-				           {
-					           TestKey = new TestKey() { FullName = x.Attribute("context").Value + "." + x.Attribute("name").Value, TestAssembly = new TestAssembly(x.Attribute("assembly").Value)},
-					           File = x.Element("failure").Attribute("file").Value,
-					           Line = ToInt(x.Element("failure").Attribute("line").Value),
-					           Column = ToInt(x.Element("failure").Attribute("column").Value),
-					           Message = x.Element("failure").Element("message").Value,
-					           Context = x.Attribute("context").Value,
-					           TestName = x.Attribute("name").Value
-				           })
+			           .Select(x => new TestFailure(
+						   x.Attribute("context").Value,
+					           testKey: new TestKey() { FullName = x.Attribute("context").Value + "." + x.Attribute("name").Value, TestAssembly = new TestAssembly(x.Attribute("assembly").Value)},
+					           file: x.Element("failure").Attribute("file").Value,
+					           line: ToInt(x.Element("failure").Attribute("line").Value),
+					           column: ToInt(x.Element("failure").Attribute("column").Value),
+							   message: x.Element("failure").Element("message").Value,			           
+					           testName: x.Attribute("name").Value
+				           ))
 			           .ToArray();
 		}
 

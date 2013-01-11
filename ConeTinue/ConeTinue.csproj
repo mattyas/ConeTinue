@@ -343,10 +343,6 @@
     <Resource Include="Images\052.png" />
   </ItemGroup>
   <ItemGroup>
-    <DesignData Include="SampleData\FilterRibbonViewModelSampleData.xaml" />
-    <DesignData Include="SampleData\TestFailuresViewModelSampleData.xaml" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\onebit_49.png" />
   </ItemGroup>
   <ItemGroup>
@@ -374,6 +370,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\bonus48x48_20.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="SampleData\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

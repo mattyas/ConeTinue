@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using Caliburn.Micro;
 using ConeTinue.Domain;
@@ -14,6 +15,7 @@ namespace ConeTinue.ViewModels
 		private readonly SettingsStrategy settings;
 		private readonly StringBuilder info = new StringBuilder();
 		private TestFailure selectedFailure;
+		private TestFailureStack selectedStackFrame;
 
 		public TestFailuresViewModel(IEventAggregator eventAggregator, SettingsStrategy settings)
 		{
@@ -32,6 +34,31 @@ namespace ConeTinue.ViewModels
 				if (Equals(value, selectedFailure)) return;
 				selectedFailure = value;
 				NotifyOfPropertyChange(() => SelectedFailure);
+				NotifyOfPropertyChange(() => StackFrames);
+				SelectedStackFrame = StackFrames.LastOrDefault(x => x.HasSource);
+			}
+		}
+
+		public TestFailureStack[] StackFrames
+		{
+			get
+			{
+				if (SelectedFailure == null)
+				{
+					return new TestFailureStack[0];
+				}
+				return SelectedFailure.StackTrace;
+			}
+		}
+
+		public TestFailureStack SelectedStackFrame
+		{
+			get { return selectedStackFrame; }
+			set
+			{
+				if (Equals(value, selectedStackFrame)) return;
+				selectedStackFrame = value;
+				NotifyOfPropertyChange(() => SelectedStackFrame);
 			}
 		}
 
@@ -77,8 +104,8 @@ namespace ConeTinue.ViewModels
 				eventAggregator.Publish(new StatusMessage("Project not found in open instance of Visual Studio! (If you run VS as admin, you need to run ConeTinue as admin)"));
 				return;
 			}
-			instance.SelectLine(failure);
 			instance.ShowErrorInVisualStudioOutput(failure);
+			instance.SelectLine(failure);
 			instance.SetStatusBar("ConeTinue and fix the error");
 
 		}
