@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Linq;
 using System.Text;
 using ConeTinue.Domain.CrossDomain;
 
@@ -8,11 +7,11 @@ namespace ConeTinue.Domain
 {
 	public class FailureToHtml
 	{
-		public static string GetHtml(TestFailure failure)
+		public static string GetHtml(TestFailure failure, TestFailureStack selectedStackFrame)
 		{
 			if (failure == null)
 				return "<html></html>";
-			var stackFrame = failure.StackTrace.FirstOrDefault(x => x.HasSource);
+			var stackFrame = selectedStackFrame;
 			if (stackFrame == null)
 			{
 				var sb = new StringBuilder();

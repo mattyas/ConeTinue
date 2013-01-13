@@ -35,11 +35,12 @@ namespace ConeTinue.ViewModels
 				selectedFailure = value;
 				NotifyOfPropertyChange(() => SelectedFailure);
 				NotifyOfPropertyChange(() => StackFrames);
-				SelectedStackFrame = StackFrames.LastOrDefault(x => x.HasSource);
+				SelectedStackFrame = StackFrames.FirstOrDefault(x => x.HasSource);
+				NotifyOfPropertyChange(() => HtmlFailure);
 			}
 		}
 
-		public string HtmlFailure { get { return FailureToHtml.GetHtml(SelectedFailure); } }
+		public string HtmlFailure { get { return FailureToHtml.GetHtml(SelectedFailure, SelectedStackFrame); } }
 
 		public TestFailureStack[] StackFrames
 		{

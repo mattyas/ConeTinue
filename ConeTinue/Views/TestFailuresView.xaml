@@ -75,11 +75,35 @@
 
         </TabItem>
         <TabItem Header="Details">
-            <WebBrowser Grid.Row="2">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+            <WebBrowser Grid.Row="0">
                 <i:Interaction.Behaviors>
                     <Views:ShowHtmlBehavior HtmlText="{Binding HtmlFailure}"/>
                 </i:Interaction.Behaviors>
             </WebBrowser>
+                <ListBox Grid.Row="1" x:Name="StackFrames" SelectedItem="{Binding SelectedStackFrame}" MaxHeight="200">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding HasSource}" Value="False">
+                                                <Setter Property="Opacity" Value="0.5"></Setter>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                                </TextBlock>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+
         </TabItem>
         <TabItem Header="Output">
             <TextBox Text="{Binding Info, Mode=OneWay}" IsReadOnly="True" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" />

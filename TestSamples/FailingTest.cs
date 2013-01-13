@@ -148,6 +148,32 @@ namespace TestSamples
 				Verify.That(() => true);
 			}
 
+			public void I_fail_in_my_setup_after_long_loop()
+			{
+				FailAfterAWhile(100);
+				Verify.That(() => true);
+			}
+
+			//public void I_fail_in_my_setup_after_forever_loop()
+			//{
+			//	I_fail_in_my_setup_after_forever_loop();
+			//	Verify.That(() => true);
+			//}
+
+			private void FailAfterAWhile(int number)
+			{
+				int j = 100/number;
+				if (j == -1)
+					return;
+				FailAfterAWhile(--number);
+			}
+
+			public void I_fail_in_system()
+			{
+				var x= int.Parse("Sju10två");
+				Verify.That(() => x == 72);
+			}
+
 			[Pending(Reason = "Supposed to not be done yet")]
 			public void I_fail_because_I_work()
 			{
