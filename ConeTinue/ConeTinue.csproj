@@ -107,6 +107,7 @@
     <Compile Include="Domain\CrossDomain\TestInfo.cs" />
     <Compile Include="Domain\CrossDomain\TestInfoWithAssembly.cs" />
     <Compile Include="Domain\CrossDomain\TestProxy.cs" />
+    <Compile Include="Domain\FailureToHtml.cs" />
     <Compile Include="Domain\FindFailedTests.cs" />
     <Compile Include="Domain\IChangeValue.cs" />
     <Compile Include="Domain\LoadTestFailureFromFileHandler.cs" />
