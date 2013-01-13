@@ -39,6 +39,8 @@ namespace ConeTinue.ViewModels
 			}
 		}
 
+		public string HtmlFailure { get { return FailureToHtml.GetHtml(SelectedFailure); } }
+
 		public TestFailureStack[] StackFrames
 		{
 			get
@@ -59,6 +61,7 @@ namespace ConeTinue.ViewModels
 				if (Equals(value, selectedStackFrame)) return;
 				selectedStackFrame = value;
 				NotifyOfPropertyChange(() => SelectedStackFrame);
+				NotifyOfPropertyChange(() => HtmlFailure);
 			}
 		}
 

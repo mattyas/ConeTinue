@@ -12,7 +12,7 @@
              >
     <TabControl>
         <TabItem Header="Test failures">
-            <ListBox x:Name="Failures" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="Failures_OnSelectionChanged" HorizontalContentAlignment="Stretch" VirtualizingStackPanel.IsVirtualizing="True" SelectedItem="{Binding SelectedFailure}">
+            <ListBox x:Name="Failures" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch" VirtualizingStackPanel.IsVirtualizing="True" SelectedItem="{Binding SelectedFailure}">
                 <i:Interaction.Behaviors>
                     <Views:AutoScrollToSelected />
                 </i:Interaction.Behaviors>
@@ -75,7 +75,11 @@
 
         </TabItem>
         <TabItem Header="Details">
-            <WebBrowser x:Name="Browser" Grid.Row="2"/>
+            <WebBrowser Grid.Row="2">
+                <i:Interaction.Behaviors>
+                    <Views:ShowHtmlBehavior HtmlText="{Binding HtmlFailure}"/>
+                </i:Interaction.Behaviors>
+            </WebBrowser>
         </TabItem>
         <TabItem Header="Output">
             <TextBox Text="{Binding Info, Mode=OneWay}" IsReadOnly="True" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" />

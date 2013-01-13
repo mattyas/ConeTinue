@@ -222,6 +222,7 @@
     <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ShowHtmlBehavior.cs" />
     <Compile Include="Views\TestFailuresView.xaml.cs">
       <DependentUpon>TestFailuresView.xaml</DependentUpon>
     </Compile>
