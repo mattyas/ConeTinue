@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using Caliburn.Micro;
@@ -10,7 +9,7 @@ using ConeTinue.ViewModels.Messages;
 
 namespace ConeTinue.ViewModels
 {
-	public class TestFailuresViewModel : PropertyChangedBase, IHandle<ReportFailures>, IHandle<StartingTestRun>, IHandle<InfoMessage>, IHandle<BookmarkAllFailuresInVisualStudio>
+	public class TestFailuresViewModel : PropertyChangedBase, IHandle<ReportFailures>, IHandle<StartingTestRun>, IHandle<InfoMessage>, IHandle<BookmarkAllFailuresInVisualStudio>, IHandle<TestSelected>
 	{
 		private readonly IEventAggregator eventAggregator;
 		private readonly SettingsStrategy settings;
@@ -127,6 +126,17 @@ namespace ConeTinue.ViewModels
 			instance.BookmarkErrorsInVisualStudio(allFailures);
 			instance.SetStatusBar("All failures are now bookmarks");
 			instance.FocusVisualStudio();
+		}
+
+		public void Handle(TestSelected message)
+		{
+			if (message.Test == null)
+				return;
+			var failure = Failures.FirstOrDefault(x => x.TestKey == message.Test.TestKey);
+			if (failure == null)
+				return;
+			SelectedFailure = failure;
+
 		}
 	}
 }

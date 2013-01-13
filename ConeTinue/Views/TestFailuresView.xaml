@@ -4,6 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:Views="clr-namespace:ConeTinue.Views"
              x:Class="ConeTinue.Views.TestFailuresView"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="400"
@@ -11,6 +13,9 @@
     <TabControl>
         <TabItem Header="Test failures">
             <ListBox x:Name="Failures" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="Failures_OnSelectionChanged" HorizontalContentAlignment="Stretch" VirtualizingStackPanel.IsVirtualizing="True" SelectedItem="{Binding SelectedFailure}">
+                <i:Interaction.Behaviors>
+                    <Views:AutoScrollToSelected />
+                </i:Interaction.Behaviors>
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
                         <VirtualizingStackPanel />

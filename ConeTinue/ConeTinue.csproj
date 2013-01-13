@@ -165,6 +165,7 @@
     <Compile Include="ViewModels\Messages\TestRunDone.cs" />
     <Compile Include="ViewModels\Messages\TestRunStatus.cs" />
     <Compile Include="ViewModels\Messages\TestRunType.cs" />
+    <Compile Include="ViewModels\Messages\TestSelected.cs" />
     <Compile Include="ViewModels\Messages\UpdateTestRunStatus.cs" />
     <Compile Include="ViewModels\ModifyTests.cs" />
     <Compile Include="ViewModels\RecentHistoryProvider.cs" />
@@ -183,6 +184,7 @@
     <Compile Include="ViewModels\TestSessionViewModel.cs" />
     <Compile Include="ViewModels\TestsViewModel.cs" />
     <Compile Include="Domain\CrossDomain\UpdateStatus.cs" />
+    <Compile Include="Views\AutoScrollToSelected.cs" />
     <Compile Include="Views\RibbonSplitMenuItemView.xaml.cs">
       <DependentUpon>RibbonSplitMenuItemView.xaml</DependentUpon>
     </Compile>

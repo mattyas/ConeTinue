@@ -91,5 +91,10 @@ namespace ConeTinue.ViewModels
 			NotifyOfPropertyChange(() => Tests);
 		}
 
+		public void TestSelected(TestItem test)
+		{
+			eventAggregator.Publish(new TestSelected(test));
+		}
+
 	}
 }
