@@ -54,7 +54,7 @@ namespace ConeTinue.Domain.VisualStudio
 		{
 			try
 			{
-				var stackFrame = failure.StackTrace.Last(x => x.HasSource);
+				var stackFrame = failure.StackTrace.First(x => x.HasSource);
 				var fileName = stackFrame.File;
 				EnvDTE.ProjectItem ptojItem = Dte.Solution.FindProjectItem(fileName);
 				if (null != ptojItem)
@@ -108,10 +108,65 @@ namespace ConeTinue.Domain.VisualStudio
 				owPane.Clear();
 				owPane.OutputString("Test: " + failure.TestName + Environment.NewLine);
 				owPane.OutputString(failure.Message + Environment.NewLine + Environment.NewLine);
+				bool first = true;
 				foreach (var stackTrace in failure.StackTrace)
 				{
+					if (first)
+						first = false;
+					else
+					{
+						owPane.OutputString("called by ");
+					}
 					owPane.OutputString(stackTrace + Environment.NewLine);
 				}
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine(ex);
+			}
+		}
+
+		public void BookmarkErrorsInVisualStudio(TestFailure[] failures)
+		{
+			try
+			{
+				foreach (var failure in failures)
+				{
+					var firstStackFrame = failure.StackTrace.Last(x => x.HasSource);
+					var lastStackFrame = failure.StackTrace.First(x => x.HasSource);
+					
+					SetBookmark(firstStackFrame);
+					if (lastStackFrame != firstStackFrame)
+						SetBookmark(lastStackFrame);
+				}
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine(ex);
+			}
+		}
+
+		private void SetBookmark(TestFailureStack stackFrame)
+		{
+			var fileName = stackFrame.File;
+			EnvDTE.ProjectItem ptojItem = Dte.Solution.FindProjectItem(fileName);
+			if (null != ptojItem)
+			{
+				ptojItem.Open(EnvDteConstants.vsViewKindCode).Activate();
+				var textSelection = (EnvDTE.TextSelection) Dte.ActiveDocument.Selection;
+				textSelection.MoveToLineAndOffset(stackFrame.Line, stackFrame.Column, true);
+				textSelection.SelectLine();
+				textSelection.ClearBookmark();
+				textSelection.SetBookmark();
+			}
+		}
+
+		public void FocusVisualStudio()
+		{
+			try
+			{
+				Dte.MainWindow.Activate();
+				Dte.MainWindow.SetFocus();
 			}
 			catch (Exception ex)
 			{

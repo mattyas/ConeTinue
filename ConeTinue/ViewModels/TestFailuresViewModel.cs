@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using Caliburn.Micro;
@@ -9,7 +10,7 @@ using ConeTinue.ViewModels.Messages;
 
 namespace ConeTinue.ViewModels
 {
-	public class TestFailuresViewModel : PropertyChangedBase, IHandle<ReportFailures>, IHandle<StartingTestRun>, IHandle<InfoMessage>
+	public class TestFailuresViewModel : PropertyChangedBase, IHandle<ReportFailures>, IHandle<StartingTestRun>, IHandle<InfoMessage>, IHandle<BookmarkAllFailuresInVisualStudio>
 	{
 		private readonly IEventAggregator eventAggregator;
 		private readonly SettingsStrategy settings;
@@ -98,6 +99,7 @@ namespace ConeTinue.ViewModels
 
 		public void OpenInVisualStudio(TestFailure failure)
 		{
+			SelectedFailure = failure;
 			VisualStudioInstance instance;
 			if (!VisualStudioInstance.TryGetVisualStudioInstance(failure, out instance, settings))
 			{
@@ -107,10 +109,24 @@ namespace ConeTinue.ViewModels
 			instance.ShowErrorInVisualStudioOutput(failure);
 			instance.SelectLine(failure);
 			instance.SetStatusBar("ConeTinue and fix the error");
-
+			instance.FocusVisualStudio();
 		}
 
-
-
+		public void Handle(BookmarkAllFailuresInVisualStudio message)
+		{
+			VisualStudioInstance instance;
+			var allFailures = Failures.ToArray();
+			var failure = Failures.FirstOrDefault(x => x.HasSource);
+			if (failure == null)
+				return;
+			if (!VisualStudioInstance.TryGetVisualStudioInstance(failure, out instance, settings))
+			{
+				eventAggregator.Publish(new StatusMessage("Project not found in open instance of Visual Studio! (If you run VS as admin, you need to run ConeTinue as admin)"));
+				return;
+			}
+			instance.BookmarkErrorsInVisualStudio(allFailures);
+			instance.SetStatusBar("All failures are now bookmarks");
+			instance.FocusVisualStudio();
+		}
 	}
 }

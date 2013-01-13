@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Caliburn.Micro;
 using ConeTinue.Domain;
 using ConeTinue.Domain.TestFilters;
@@ -83,7 +82,9 @@ namespace ConeTinue.ViewModels
 						AvailableWhenNotRunningTests(new RibbonButtonViewModel("Load test session from failed tests", LoadFromFailed, Icon.LoadTestSessionFromFailedTests, "F"))
 						).Build(),
 					new RibbonGroupBuilder("Current test session")
-					.WithItems(testSessionViewModel).Build()
+					.WithItems(testSessionViewModel).Build(),
+					new RibbonGroupBuilder("Extras")
+					.WithItems(AvailableWhenNotRunningTests(new RibbonButtonViewModel("Bookmark failures in visual studio", () => eventAggregator.Publish( new BookmarkAllFailuresInVisualStudio()), Icon.VisualStudio, "B", canExecute:false))).Build()
 						).Build(),
 				new RibbonTabBuilder("Select/Expand", "E").WithRibbonGroups(
 					new RibbonGroupBuilder("Select").WithItems(

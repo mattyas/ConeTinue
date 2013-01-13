@@ -149,6 +149,7 @@
     <Compile Include="ViewModels\ISubMenuProvider.cs" />
     <Compile Include="ViewModels\Messages\AbortTestRun.cs" />
     <Compile Include="ViewModels\Messages\AddTestAssemblies.cs" />
+    <Compile Include="ViewModels\Messages\BookmarkAllFailuresInVisualStudio.cs" />
     <Compile Include="ViewModels\Messages\ClearTestSession.cs" />
     <Compile Include="ViewModels\Messages\ErrorMessage.cs" />
     <Compile Include="ViewModels\Messages\Exit.cs" />

@@ -27,20 +27,20 @@ namespace ConeTinue.Views
 			
 		}
 
-		private static string GetHtml(TestFailure failurex)
+		private static string GetHtml(TestFailure failure)
 		{
 			string readAllText;
-			var stackFrame = failurex.StackTrace.LastOrDefault(x => x.HasSource);
+			var stackFrame = failure.StackTrace.FirstOrDefault(x => x.HasSource);
 			if (stackFrame == null)
 			{
 				var sb = new StringBuilder();
 				sb.Append("<html>");
 				sb.Append("<h1>");
-				sb.Append(failurex.TestName);
+				sb.Append(failure.TestName);
 				sb.Append("</h1>");
-				sb.Append(failurex.Message);
+				sb.Append(failure.Message);
 				sb.Append("<hr />");
-				foreach (var stack in failurex.StackTrace)
+				foreach (var stack in failure.StackTrace)
 				{
 					sb.Append(stack);
 					sb.AppendLine("<br />");
@@ -54,7 +54,7 @@ namespace ConeTinue.Views
 			string codeAsHtml = new External.XtractPro.Text.CSharpSyntaxHighlighter
 				{
 					ShowCollapsibleBlocks = false, ShowComments = true, ShowHyperlinks = false, ShowLineNumbers = true, LineNumberSpaces = 4, ShowRtf = false,
-				}.Process(readAllText).Replace("<!--" + (stackFrame.Line) + "-->", "<div id=\"the_error\"><h1>" + failurex.TestName + "</h1>" + failurex.Message.Replace("\n", "<br />") + "</div>");
+				}.Process(readAllText).Replace("<!--" + (stackFrame.Line) + "-->", "<div id=\"the_error\"><h1>" + failure.TestName + "</h1>" + failure.Message.Replace("\n", "<br />") + "</div>");
 
 			return docTemplate.Replace("[error-id]", stackFrame.Line.ToString()) + codeAsHtml + docTemplateEnd.Replace("[line-before-error]", Math.Max(1, stackFrame.Line-3).ToString());
 		}
