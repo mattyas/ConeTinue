@@ -118,12 +118,6 @@ namespace ConeTinue.Domain
 			get { return filters; }
 		}
 
-		public string[] AllStrings
-		{
-			get { return allItems.Values.SelectMany(x => x.Name.Split(new []{' '})).Distinct().ToArray(); }
-		}
-
-
 		private readonly ObservableCollection<FilterTests> filters = new ObservableCollection<FilterTests>();
 		private void ApplyFilters()
 		{
@@ -210,7 +204,8 @@ namespace ConeTinue.Domain
 			test.IsExpanded = shouldExpandAll;
 			if (!test.IsTest)
 				return;
-			var parts = test.TestKey.FullName.Split('.');
+			var length = test.TestKey.FullName.Length - test.Name.Length;
+			var parts = test.TestKey.FullName.Substring(0, length).Split('.');
 			TestItem path = map;
 			map.TestRun.AddTest(test);
 			for (int index = 0; index < parts.Length - 1; index++)

@@ -125,6 +125,11 @@ namespace TestSamples
 		[Context("Failing test")]
 		public class FailingTest
 		{
+			[DisplayAs("My name contains.a dot")]
+			public void my_name_contains_a_dot()
+			{
+				Verify.That(() => false);
+			}
 			public void I_fail_because_my_math_is_bad()
 			{
 				Verify.That(() => 1 + 2 == 5);
