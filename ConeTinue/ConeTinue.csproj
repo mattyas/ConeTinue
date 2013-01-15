@@ -91,6 +91,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controls\ExtendedTextBox.cs" />
+    <Compile Include="Controls\FocusOnKeyTipBehavior.cs" />
     <Compile Include="Converters\IconConverter.cs" />
     <Compile Include="Converters\NotConverter.cs" />
     <Compile Include="Converters\StatusImageConverter.cs" />

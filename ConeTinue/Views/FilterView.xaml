@@ -6,6 +6,7 @@
              xmlns:Controls="clr-namespace:ConeTinue.Controls"
              xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
              xmlns:Converters="clr-namespace:ConeTinue.Converters"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              mc:Ignorable="d" 
              d:DesignWidth="300">
     <Grid>
@@ -15,7 +16,11 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-            <Controls:ExtendedTextBox Grid.Column="1" x:Name="Filter" MinWidth="50" Margin="4" ToolTip="Use regex" cal:Message.Attach="[EnterKeyDown] = [FilterTests]" Background="LightGoldenrodYellow" />
+            <Controls:ExtendedTextBox KeyTipService.KeyTip="I" Grid.Column="1" x:Name="Filter" MinWidth="50" Margin="4" ToolTip="Use regex" cal:Message.Attach="[EnterKeyDown] = [FilterTests]" Background="LightGoldenrodYellow">
+            <i:Interaction.Behaviors>
+                <Controls:FocusOnKeyTipBehavior />
+            </i:Interaction.Behaviors>
+            </Controls:ExtendedTextBox>
             <Button x:Name="ContinueFilterTests" Margin="4" Grid.Column="2">Filter view</Button>
             <Button x:Name="NewFilterTests" Margin="4" Grid.Column="3">New Filter</Button>
         <ListBox Grid.Column="0" VerticalAlignment="Center" ItemContainerStyle="{DynamicResource ListBoxItemStyle1}" BorderThickness="0" Background="Transparent">

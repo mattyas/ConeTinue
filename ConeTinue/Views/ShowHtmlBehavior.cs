@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Interactivity;
 
-namespace ConeTinue.Views
+namespace ConeTinue.Controls
 {
 	public class ShowHtmlBehavior : Behavior<WebBrowser>
 	{
