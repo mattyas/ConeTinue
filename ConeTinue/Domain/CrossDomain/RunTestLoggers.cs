@@ -85,7 +85,7 @@ namespace ConeTinue.Domain.CrossDomain
 
 		public void EndSuite() { }
 
-		public void Done() {infoWriter.SetCurrentTest(null); }
+		public void Done() {}
 		public void WriteInfo(Action<TextWriter> output)
 		{
 			output(infoWriter);
@@ -93,6 +93,6 @@ namespace ConeTinue.Domain.CrossDomain
 
 		public void BeginSession() { }
 		public ISuiteLogger BeginSuite(IConeSuite suite) { return this; }
-		public void EndSession() { }
+		public void EndSession() { infoWriter.SetCurrentTest(null); }
 	}
 }
