@@ -16,13 +16,21 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-            <Controls:ExtendedTextBox KeyTipService.KeyTip="I" Grid.Column="1" x:Name="Filter" MinWidth="50" Margin="4" ToolTip="Use regex" cal:Message.Attach="[EnterKeyDown] = [FilterTests]" Background="LightGoldenrodYellow">
+            <Controls:ExtendedTextBox KeyTipService.KeyTip="3" Grid.Column="1" x:Name="Filter" MinWidth="50" Margin="4" ToolTip="Use regex" cal:Message.Attach="[EnterKeyDown] = [FilterTests]" Background="LightGoldenrodYellow">
             <i:Interaction.Behaviors>
                 <Controls:FocusOnKeyTipBehavior />
             </i:Interaction.Behaviors>
             </Controls:ExtendedTextBox>
-            <Button x:Name="ContinueFilterTests" Margin="4" Grid.Column="2">Filter view</Button>
-            <Button x:Name="NewFilterTests" Margin="4" Grid.Column="3">New Filter</Button>
+        <Button x:Name="ContinueFilterTests" Margin="4" Grid.Column="2" KeyTipService.KeyTip="4">
+            <i:Interaction.Behaviors>
+                <Controls:ClickOnKeyTipBehavior />
+            </i:Interaction.Behaviors>
+            Filter view</Button>
+            <Button x:Name="NewFilterTests" Margin="4" Grid.Column="3" KeyTipService.KeyTip="5">
+            <i:Interaction.Behaviors>
+                <Controls:ClickOnKeyTipBehavior />
+            </i:Interaction.Behaviors>
+            New Filter</Button>
         <ListBox Grid.Column="0" VerticalAlignment="Center" ItemContainerStyle="{DynamicResource ListBoxItemStyle1}" BorderThickness="0" Background="Transparent">
             <ListBox.Resources>
                 <ResourceDictionary>
@@ -56,8 +64,15 @@
                 </ResourceDictionary>
             </ListBox.Resources>
             <ListBox.ItemsPanel><ItemsPanelTemplate><StackPanel Orientation="Horizontal" /></ItemsPanelTemplate></ListBox.ItemsPanel>
-            <ListBoxItem IsSelected="{Binding ShowWhenMatching}" >Include</ListBoxItem>
-            <ListBoxItem IsSelected="{Binding ShowWhenMatching, Converter={StaticResource Not}}">Exclude</ListBoxItem>
+            <ListBoxItem IsSelected="{Binding ShowWhenMatching}" KeyTipService.KeyTip="1" >
+                <i:Interaction.Behaviors>
+                    <Controls:SetIsSelectedOnKeyTipBehavior />
+                </i:Interaction.Behaviors>Include
+            </ListBoxItem>
+            <ListBoxItem IsSelected="{Binding ShowWhenMatching, Converter={StaticResource Not}}" KeyTipService.KeyTip="2">
+                <i:Interaction.Behaviors>
+                    <Controls:SetIsSelectedOnKeyTipBehavior />
+                </i:Interaction.Behaviors>Exclude</ListBoxItem>
         </ListBox>
         </Grid>
 </UserControl>

@@ -11,7 +11,10 @@
              d:DesignHeight="300" d:DesignWidth="400"
              >
     <TabControl>
-        <TabItem Header="Test failures">
+        <TabItem Header="Test failures" KeyTipService.KeyTip="6">
+            <i:Interaction.Behaviors>
+                <Controls:SelectTabOnKeyTipBehavior />
+            </i:Interaction.Behaviors>
             <ListBox x:Name="Failures" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch" VirtualizingStackPanel.IsVirtualizing="True" SelectedItem="{Binding SelectedFailure}">
                 <i:Interaction.Behaviors>
                     <Controls:AutoScrollToSelected />
@@ -74,7 +77,10 @@
 
 
         </TabItem>
-        <TabItem Header="Details">
+        <TabItem Header="Details" KeyTipService.KeyTip="7">
+            <i:Interaction.Behaviors>
+                <Controls:SelectTabOnKeyTipBehavior />
+            </i:Interaction.Behaviors>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
@@ -85,7 +91,10 @@
                     <Controls:ShowHtmlBehavior HtmlText="{Binding HtmlFailure}"/>
                 </i:Interaction.Behaviors>
             </WebBrowser>
-                <ListBox Grid.Row="1" x:Name="StackFrames" SelectedItem="{Binding SelectedStackFrame}" MaxHeight="200">
+                <ListBox Grid.Row="1" x:Name="StackFrames" SelectedItem="{Binding SelectedStackFrame}" MaxHeight="200" KeyTipService.KeyTip="9">
+                    <i:Interaction.Behaviors>
+                        <Controls:FocusOnKeyTipBehavior />
+                    </i:Interaction.Behaviors>
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding}">
@@ -105,7 +114,10 @@
             </Grid>
 
         </TabItem>
-        <TabItem Header="Output">
+        <TabItem Header="Output" KeyTipService.KeyTip="8">
+            <i:Interaction.Behaviors>
+                <Controls:SelectTabOnKeyTipBehavior />
+            </i:Interaction.Behaviors>
             <TextBox Text="{Binding Info, Mode=OneWay}" IsReadOnly="True" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" />
         </TabItem>
     </TabControl>

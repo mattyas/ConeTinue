@@ -91,8 +91,11 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controls\AutoScrollToSelected.cs" />
+    <Compile Include="Controls\ClickOnKeyTipBehavior.cs" />
     <Compile Include="Controls\ExtendedTextBox.cs" />
     <Compile Include="Controls\FocusOnKeyTipBehavior.cs" />
+    <Compile Include="Controls\SelectTabOnKeyTipBehavior.cs" />
+    <Compile Include="Controls\SetIsSelectedOnKeyTipBehavior.cs" />
     <Compile Include="Controls\ShowHtmlBehavior.cs" />
     <Compile Include="Converters\IconConverter.cs" />
     <Compile Include="Converters\NotConverter.cs" />
