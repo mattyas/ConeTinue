@@ -1,7 +1,7 @@
-﻿using System.Windows.Controls;
+using System.Windows.Controls;
 using System.Windows.Interactivity;
 
-namespace ConeTinue.Views
+namespace ConeTinue.Controls
 {
 	public class AutoScrollToSelected : Behavior<ListBox>
 	{

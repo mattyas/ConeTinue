@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-             xmlns:Views="clr-namespace:ConeTinue.Views" xmlns:Controls="clr-namespace:ConeTinue.Controls"
+             xmlns:Controls="clr-namespace:ConeTinue.Controls"
              x:Class="ConeTinue.Views.TestFailuresView"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="400"
@@ -14,7 +14,7 @@
         <TabItem Header="Test failures">
             <ListBox x:Name="Failures" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch" VirtualizingStackPanel.IsVirtualizing="True" SelectedItem="{Binding SelectedFailure}">
                 <i:Interaction.Behaviors>
-                    <Views:AutoScrollToSelected />
+                    <Controls:AutoScrollToSelected />
                 </i:Interaction.Behaviors>
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
