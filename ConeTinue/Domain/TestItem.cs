@@ -10,6 +10,12 @@ namespace ConeTinue.Domain
 		{
 			TestRun = new TestRun();
 		}
+
+		public static int CompareTests(TestItem x, TestItem y)
+		{
+			return String.Compare(x.Name, y.Name, StringComparison.OrdinalIgnoreCase);
+		}
+
 		private bool shouldRun;
 		private TestStatus status = TestStatus.Unknown;
 		private bool isInLatestRun;
@@ -162,16 +168,26 @@ namespace ConeTinue.Domain
 			tests.Add(newTestItem);
 		}
 
-		public void SortTests(Comparison<TestItem> comparison)
-		{
-			tests.Sort(comparison);
-		}
-
 		public void DisconnectFromParent()
 		{
 			if (Parent != null)
 				Parent.tests.Remove(this);
 			Parent = null;
+		}
+
+		public TestItem SubPath(string name)
+		{
+			var path = Tests.FirstOrDefault(x => x.Name == name);
+			if (path != null)
+				return path;
+			var testItem = new TestItem { Name = name, Parent = this, IsExpanded = isExpanded, TestKey = new TestKey { FullName = TestKey.FullName + "." + name, TestAssembly = new NoTestAssembly() } };
+			AddTest(testItem);
+			return testItem;
+		}
+
+		public void SortTests()
+		{
+			tests.Sort(CompareTests);
 		}
 	}
 }

@@ -115,6 +115,7 @@
     <Compile Include="Domain\IChangeValue.cs" />
     <Compile Include="Domain\LoadTestFailureFromFileHandler.cs" />
     <Compile Include="Domain\TestFilters\IncludeCategoriesFilter.cs" />
+    <Compile Include="Domain\TestItemHolderFactory.cs" />
     <Compile Include="Domain\TestRun.cs" />
     <Compile Include="Domain\DelayedPropertyChangedBase.cs" />
     <Compile Include="Domain\Icon.cs" />

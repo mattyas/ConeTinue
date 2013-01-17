@@ -50,7 +50,7 @@ namespace ConeTinue.Domain.CrossDomain
 
 
 				}
-				testItemHolder = TestItemHolder.CreateFrom(allTests, settings.DefaultAllExpanded);
+				testItemHolder = TestItemHolderFactory.CreateFrom(allTests, settings.DefaultAllExpanded);
 				eventAggregator.Publish(new NewTestsLoaded(testItemHolder));
 				if (failedAssemblies.Any())
 					eventAggregator.Publish(new ErrorMessage("Done loading tests with errors in " + string.Join(", ", failedAssemblies.Select(x => x.AssemblyFileName))));
