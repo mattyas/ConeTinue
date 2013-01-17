@@ -8,13 +8,13 @@ using ConeTinue.Domain.TestFilters;
 
 namespace ConeTinue.Domain
 {
-	[Serializable]
 	public class TestItemHolder : TestItem
 	{
 		public TestItemHolder()
 		{
 			TestKey = new TestKey {FullName = string.Empty, TestAssembly = new NoTestAssembly()};
 		}
+
 		public override string Name
 		{
 			get
@@ -30,9 +30,7 @@ namespace ConeTinue.Domain
 				return true;
 			}
 		}
-
-
-
+		
 		public IEnumerable<TestCategory> AllCategories
 		{
 			get
@@ -229,7 +227,6 @@ namespace ConeTinue.Domain
 			test.Parent = path;
 			path.AddTest(test);
 		}
-
 
 		public void MarkTestToRun()
 		{
