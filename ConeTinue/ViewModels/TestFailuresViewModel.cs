@@ -103,6 +103,13 @@ namespace ConeTinue.ViewModels
 		public void OpenInVisualStudio(TestFailure failure)
 		{
 			SelectedFailure = failure;
+			var stackFrame = failure.StackTrace.First(x => x.HasSource);
+			OpenStackInVisualStudio(stackFrame);
+		}
+
+		public void OpenStackInVisualStudio(TestFailureStack stackFrame)
+		{
+			var failure = SelectedFailure;
 			VisualStudioInstance instance;
 			if (!VisualStudioInstance.TryGetVisualStudioInstance(failure, out instance, settings))
 			{
@@ -110,10 +117,11 @@ namespace ConeTinue.ViewModels
 				return;
 			}
 			instance.ShowErrorInVisualStudioOutput(failure);
-			instance.SelectLine(failure);
+			instance.SelectLine(failure, stackFrame);
 			instance.SetStatusBar("ConeTinue and fix the error");
 			instance.FocusVisualStudio();
 		}
+
 
 		public void Handle(BookmarkAllFailuresInVisualStudio message)
 		{

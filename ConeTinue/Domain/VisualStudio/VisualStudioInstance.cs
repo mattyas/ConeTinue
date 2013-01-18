@@ -50,11 +50,10 @@ namespace ConeTinue.Domain.VisualStudio
 			return VisualStudioVersion.Is80Compatible;
 		}
 
-		public void SelectLine(TestFailure failure)
+		public void SelectLine(TestFailure failure, TestFailureStack stackFrame)
 		{
 			try
 			{
-				var stackFrame = failure.StackTrace.First(x => x.HasSource);
 				var fileName = stackFrame.File;
 				EnvDTE.ProjectItem ptojItem = Dte.Solution.FindProjectItem(fileName);
 				if (null != ptojItem)

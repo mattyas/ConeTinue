@@ -97,7 +97,9 @@
                     </i:Interaction.Behaviors>
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding}">
+                            <StackPanel Orientation="Horizontal">
+                                
+                                <TextBlock Text="{Binding}">
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock">
                                         <Style.Triggers>
@@ -108,6 +110,34 @@
                                     </Style>
                                 </TextBlock.Style>
                                 </TextBlock>
+
+                                <Button 
+                                    Margin="4,0" x:Name="ErrorButton" Tag="{Binding}" cal:Message.Attach="[Event Click]=[Action OpenStackInVisualStudio(ErrorButton.Tag)]" Content="Goto error in Visual Studio" Template="{DynamicResource VisualStudioButtonTemplate}">
+                                    <Button.Resources>
+                                        <ControlTemplate  x:Key="VisualStudioButtonTemplate" TargetType="{x:Type ButtonBase}">
+                                            <ContentPresenter x:Name="Link" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="Link" Property="TextBlock.Foreground" Value="CornflowerBlue" />
+                                                </Trigger>
+                                                <Trigger Property="IsPressed" Value="True">
+                                                    <Setter TargetName="Link" Property="TextBlock.FontWeight" Value="Bold" />
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Button.Resources>
+                                    <Button.Style>
+                                        <Style TargetType="{x:Type Button}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding HasSource}" Value="False">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+
+                            </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
