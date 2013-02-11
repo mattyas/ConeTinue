@@ -41,6 +41,8 @@ namespace ConeTinue.ViewModels
 		public void Handle(TestRunDone message)
 		{
 			runCount--;
+			if (runCount < 0)
+				runCount = 0;
 			if (runCount != 0)
 				return;
 
@@ -119,7 +121,10 @@ namespace ConeTinue.ViewModels
 						new RibbonCheckboxViewModel("Output debug and error text", settingsStrategy, () => settingsStrategy.OutputDebugAndError, "O", Icon.Error),
 						new RibbonCheckboxViewModel("Pin ConeTinue output in Visual Studio", settingsStrategy, () => settingsStrategy.PinOutputInVisualStudio, "P", Icon.VisualStudio)
 				
-						).Build()
+						).Build(),
+					new RibbonGroupBuilder("Extras").WithItems(
+						new RibbonButtonViewModel("Trigger TestRun Done (aborted) event", () => eventAggregator.Publish(new TestRunDone(TestRunType.Aborted)), Icon.AbortTestRun, "X")
+					).Build()
 					).Build()
 				};
 			eventAggregator.Subscribe(this);

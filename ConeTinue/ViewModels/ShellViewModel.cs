@@ -124,6 +124,7 @@ namespace ConeTinue.ViewModels
 		{
 			Status = message.Error;
 			Icon = Icon.Error;
+			eventAggregator.Publish(new TestRunDone(TestRunType.Aborted));
 		}
 
 		public void Handle(UpdateTestRunStatus message)

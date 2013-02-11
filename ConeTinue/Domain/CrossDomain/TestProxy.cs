@@ -26,7 +26,7 @@ namespace ConeTinue.Domain.CrossDomain
 			try
 			{
 				assembly = AppDomain.CurrentDomain.Load(AssemblyName.GetAssemblyName(AssemblyPath));
-				new SimpleConeRunner { Workers = Environment.ProcessorCount }
+				new SimpleConeRunner { Workers = 1 } 
 					.RunTests(new TestSession(logger)
 					{
 						GetResultCollector = fixture => ((test, result) => result.Success())
