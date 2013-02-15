@@ -1,7 +1,9 @@
 ﻿using System;
+using System.IO;
 using Caliburn.Micro;
 using ConeTinue.Domain;
 using ConeTinue.ViewModels.Messages;
+using System.Linq;
 
 namespace ConeTinue.ViewModels
 {
@@ -27,6 +29,24 @@ namespace ConeTinue.ViewModels
 			FilterViewModel = new FilterViewModel(eventAggregator);
 			CurrentTestRunViewModel = new CurrentTestRunViewModel(eventAggregator);
 			eventAggregator.Publish(new NewTestsLoaded(new TestItemHolder()));
+			foreach (var argument in Environment.GetCommandLineArgs().Skip(1))
+			{
+				TryHandleArgument(argument);
+			}
+		}
+
+		void TryHandleArgument(string arg)
+		{
+			if (!arg.StartsWith("--"))
+				return;
+			var parts = arg.Remove(0,2).Split(new[]{'='},2);
+			if (parts.Length != 2)
+				return;
+			if (parts[0].ToLower() == "assembly")
+			{
+				if (File.Exists(parts[1]))
+					eventAggregator.Publish(new Messages.AddTestAssemblies(parts[1]));
+			}
 		}
 
 		public CurrentTestRunViewModel CurrentTestRunViewModel { get; private set; }
