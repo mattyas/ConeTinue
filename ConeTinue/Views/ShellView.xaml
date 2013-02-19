@@ -15,9 +15,10 @@
     <Ribbon:RibbonWindow.Resources>
         <Converters:IconConverter x:Key="IconConverter"/>
         <Converters:TestRunStatusIconConverter x:Key="TestRunStatusIconConverter" />
+        <Converters:TestRunStatusProgressStateConverter x:Key="TestRunStatusProgressStateConverter" />
     </Ribbon:RibbonWindow.Resources>
     <Ribbon:RibbonWindow.TaskbarItemInfo>
-        <TaskbarItemInfo Overlay="{Binding TestRunStatus, Converter={StaticResource TestRunStatusIconConverter}}" />
+        <TaskbarItemInfo Description="{Binding Status}" ProgressState="{Binding TestRunStatus, Converter={StaticResource TestRunStatusProgressStateConverter}}"  Overlay="{Binding TestRunStatus, Converter={StaticResource TestRunStatusIconConverter}}" />
     </Ribbon:RibbonWindow.TaskbarItemInfo>
     <DockPanel>
     <ContentControl x:Name="Ribbon" DockPanel.Dock="Top" />

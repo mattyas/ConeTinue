@@ -105,6 +105,7 @@
     <Compile Include="Converters\StatusImageConverter.cs" />
     <Compile Include="Converters\TestRunStatusConverter.cs" />
     <Compile Include="Converters\TestRunStatusIconConverter.cs" />
+    <Compile Include="Converters\TestRunStatusProgressStateConverter.cs" />
     <Compile Include="Converters\TestTreeTemplateSelector.cs" />
     <Compile Include="Domain\CrossDomain\AppDomainHolder.cs" />
     <Compile Include="Domain\CrossDomain\RunTestFastLoggers.cs" />

@@ -23,9 +23,9 @@ namespace ConeTinue.Domain.CrossDomain
 		public UpdateStatus(IEventAggregator eventAggregator)
 		{
 			this.eventAggregator = eventAggregator;
-			statusQueueWorker = new Thread(SendStatusQueue);
+			statusQueueWorker = new Thread(SendStatusQueue) {IsBackground = true};
 			statusQueueWorker.Start();
-			timingQueueWorker = new Thread(SendTimingQueue);
+			timingQueueWorker = new Thread(SendTimingQueue) { IsBackground = true };
 			timingQueueWorker.Start();
 		}
 
