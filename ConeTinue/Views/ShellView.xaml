@@ -7,7 +7,7 @@
                      xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
                      xmlns:Converters="clr-namespace:ConeTinue.Converters"
                      mc:Ignorable="d"
-                     Icon="pack://application:,,,/ConeTinue;component/Images/004.png"
+                     Icon="pack://application:,,,/ConeTinue;component/Images/conetastic_color.png"
              d:DesignHeight="500" d:DesignWidth="800"
                      cal:Bind.AtDesignTime="True"
                      
