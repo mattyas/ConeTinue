@@ -21,6 +21,8 @@ namespace ConeTinue.Controls
 				return;
 			if (behavior.AssociatedObject == null)
 				return;
+			if (e.NewValue == null)
+				return;
 			behavior.AssociatedObject.NavigateToString((string)e.NewValue);
 		}
 	}
