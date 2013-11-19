@@ -13,7 +13,7 @@ namespace TestSamples
 		{
 			public void is_less_then_300(int value)
 			{
-				Verify.That(() => value < 300);
+				Check.That(() => value < 300);
 			}
 			public RowBuilder<ManyTests> Test()
 			{
@@ -39,7 +39,7 @@ namespace TestSamples
 				public void bad_with_output()
 				{
 					Console.WriteLine("bad lego");
-					Verify.That(() => false);
+					Check.That(() => false);
 				}
 
 				[Context("Fail before each")]
@@ -106,7 +106,7 @@ namespace TestSamples
 				public void is_odd(int value)
 				{
 					var modolo = value%2;
-					Verify.That(() => modolo == 1);
+					Check.That(() => modolo == 1);
 				}
 
 				public RowBuilder<Extreme> Test()
@@ -128,41 +128,41 @@ namespace TestSamples
 			[DisplayAs("My name contains.a dot")]
 			public void my_name_contains_a_dot()
 			{
-				Verify.That(() => false);
+				Check.That(() => false);
 			}
 			public void I_fail_because_my_math_is_bad()
 			{
-				Verify.That(() => 1 + 2 == 5);
+				Check.That(() => 1 + 2 == 5);
 			}
 
 			public void I_fail_because_I_devide_by_zero_in_verify()
 			{
 				int zero = 0;
-				Verify.That(() => 2 / zero == 3);
+				Check.That(() => 2 / zero == 3);
 			}
 
 			[Pending(Reason = "Not done yet")]
 			public void I_am_pending()
 			{
-				Verify.That(() => false);
+				Check.That(() => false);
 			}
 
 			public void I_fail_in_my_setup()
 			{
 				Setup();
-				Verify.That(() => true);
+				Check.That(() => true);
 			}
 
 			public void I_fail_in_my_setup_after_long_loop()
 			{
 				FailAfterAWhile(100);
-				Verify.That(() => true);
+				Check.That(() => true);
 			}
 
 			//public void I_fail_in_my_setup_after_forever_loop()
 			//{
 			//	I_fail_in_my_setup_after_forever_loop();
-			//	Verify.That(() => true);
+			//	Check.That(() => true);
 			//}
 
 			private void FailAfterAWhile(int number)
@@ -176,13 +176,13 @@ namespace TestSamples
 			public void I_fail_in_system()
 			{
 				var x= int.Parse("Sju10två");
-				Verify.That(() => x == 72);
+				Check.That(() => x == 72);
 			}
 
 			[Pending(Reason = "Supposed to not be done yet")]
 			public void I_fail_because_I_work()
 			{
-				Verify.That(() => true);
+				Check.That(() => true);
 			}
 
 			private void Setup()
@@ -200,7 +200,7 @@ namespace TestSamples
 		public void is_always_visible()
 		{
 			var item = new TestItemHolder {IsVisible = false};
-			Verify.That(() => item.IsVisible);
+			Check.That(() => item.IsVisible);
 		}
 	}
 }
