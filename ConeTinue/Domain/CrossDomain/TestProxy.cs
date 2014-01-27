@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Cone;
+using Cone.Core;
 using Cone.Runners;
 
 namespace ConeTinue.Domain.CrossDomain
@@ -29,7 +31,7 @@ namespace ConeTinue.Domain.CrossDomain
 				new SimpleConeRunner { Workers = 1 } 
 					.RunTests(new TestSession(logger)
 					{
-						GetResultCollector = fixture => ((test, result) => result.Success())
+						GetTestExecutor = fixture => new DryRunTestExecutor()
 					}, new[] { assembly });
 				return tests.ToList();
 			}
