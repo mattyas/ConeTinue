@@ -67,7 +67,7 @@ namespace ConeTinue.Domain.CrossDomain
 									{
 										if (!ShouldRunTests) throw new AbortTestsException();
 										return !testsToRun.Contains(test.TestName.FullName);
-									}
+									},
 							}, new[] {assembly});
 				}
 				catch (AbortTestsException)
