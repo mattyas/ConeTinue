@@ -64,7 +64,7 @@ namespace ConeTinue.ViewModels
 					                                                    Icon.AbortTestRun, "A", canExecute: false, showToolTip: true)),
 					AvailableWhenNotRunningTests(new RibbonSplitButtonViewModel("Add test assembly", OpenTestAssembly,
 					                                                            Icon.AddTestAssembly, "H","O", new RecentHistoryProvider(settingsStrategy, eventAggregator), showToolTip: true)),
-					AvailableWhenNotRunningTests(new RibbonButtonViewModel("Select and show only failed", SelectAndShowOnlyFailed, Icon.Error, "T", showToolTip: true)),
+					AvailableWhenNotRunningTests(new RibbonButtonViewModel("Select and show only failed (Loosers)", SelectAndShowOnlyFailed, Icon.Error, "L", showToolTip: true)),
 					AvailableWhenNotRunningTests(new RibbonButtonViewModel("Clear filter", () => eventAggregator.Publish(new ClearFilters()), Icon.ClearFilters,"X", showToolTip: true))
 
 				};
@@ -74,7 +74,7 @@ namespace ConeTinue.ViewModels
 					.WithItems(
 						AvailableWhenNotRunningTests(new RibbonButtonViewModel("Run", () => eventAggregator.Publish(new RunTests()),Icon.Run, "R")),
 						AvailableWhenRunningTests(new RibbonButtonViewModel("Abort", () => eventAggregator.Publish(new AbortTestRun()),Icon.AbortTestRun, "A", canExecute: false)),
-						AvailableWhenNotRunningTests(new RibbonButtonViewModel("Run Fast", () => eventAggregator.Publish(new RunTests(true)),Icon.RunFast, "F"))
+						AvailableWhenNotRunningTests(new RibbonButtonViewModel("Run Fast", () => eventAggregator.Publish(new RunTests(true)),Icon.RunFast, "X"))
 						).Build(),
 					new RibbonGroupBuilder("Test session")
 					.WithItems(
