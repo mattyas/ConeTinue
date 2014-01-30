@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using Caliburn.Micro;
+using Cone;
 using ConeTinue.Domain;
 using ConeTinue.ViewModels.Messages;
 using System.Linq;
@@ -60,8 +61,9 @@ namespace ConeTinue.ViewModels
 			get { return status; }
 			private set
 			{
-				if (value == status) return;
-				status = value;
+				var newValue = string.Format("{0} @{1}", value, DateTime.Now.ToString("HH:mm:ss"));
+				if (newValue == status) return;
+				status = newValue;
 				NotifyOfPropertyChange(() => Status);
 			}
 		}
