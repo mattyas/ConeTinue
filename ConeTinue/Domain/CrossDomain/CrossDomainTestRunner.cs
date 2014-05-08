@@ -44,7 +44,7 @@ namespace ConeTinue.Domain.CrossDomain
 					catch (Exception ex)
 					{
 						failedAssemblies.Add(testAssembly);
-						eventAggregator.Publish(new ErrorMessage("Failed loading " +testAssembly.AssemblyFileName + " wrong Cone version?"));
+						eventAggregator.Publish(new ErrorMessage("Failed loading " +testAssembly.AssemblyFileName,"Wrong Cone version?"));
 						Debug.Write(ex);
 					}
 
@@ -53,7 +53,7 @@ namespace ConeTinue.Domain.CrossDomain
 				testItemHolder = TestItemHolderFactory.CreateFrom(allTests, settings.DefaultAllExpanded);
 				eventAggregator.Publish(new NewTestsLoaded(testItemHolder));
 				if (failedAssemblies.Any())
-					eventAggregator.Publish(new ErrorMessage("Done loading tests with errors in " + string.Join(", ", failedAssemblies.Select(x => x.AssemblyFileName))));
+					eventAggregator.Publish(new ErrorMessage("Failed loading tests" , "Errors in " + string.Join(", ", failedAssemblies.Select(x => x.AssemblyFileName))));
 				else
 					eventAggregator.Publish(new StatusMessage("Done loading tests"));
 			}
@@ -89,7 +89,7 @@ namespace ConeTinue.Domain.CrossDomain
 			}
 			catch (Exception ex)
 			{
-				eventAggregator.Publish(new ErrorMessage(ex.ToString()));
+				eventAggregator.Publish(new ErrorMessage("Failed running tests", ex.ToString()));
 				return false;
 			}
 		}
@@ -115,7 +115,7 @@ namespace ConeTinue.Domain.CrossDomain
 						item.Status = statuses.Value;
 				}
 				if (report.HasError)
-					eventAggregator.Publish(new ErrorMessage(report.Error));
+					eventAggregator.Publish(new ErrorMessage("Failed running tests",report.Error));
 				foreach (var testTime in report.TestTimes)
 				{
 					TestItem item;

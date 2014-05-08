@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using Caliburn.Micro;
@@ -9,11 +10,12 @@ using ConeTinue.ViewModels.Messages;
 
 namespace ConeTinue.ViewModels
 {
-	public class TestFailuresViewModel : PropertyChangedBase, IHandle<ReportFailures>, IHandle<StartingTestRun>, IHandle<InfoMessage>, IHandle<BookmarkAllFailuresInVisualStudio>, IHandle<TestSelected>
+	public class TestFailuresViewModel : PropertyChangedBase, IHandle<ReportFailures>, IHandle<StartingTestRun>, IHandle<InfoMessage>, IHandle<BookmarkAllFailuresInVisualStudio>, IHandle<TestSelected>, IHandle<ErrorMessage>, IHandle<ClearErrorLog>
 	{
 		private readonly IEventAggregator eventAggregator;
 		private readonly SettingsStrategy settings;
 		private readonly StringBuilder info = new StringBuilder();
+		private readonly StringBuilder errorLog = new StringBuilder();
 		private TestFailure selectedFailure;
 		private TestFailureStack selectedStackFrame;
 
@@ -76,14 +78,27 @@ namespace ConeTinue.ViewModels
 			}
 		}
 
+		public void Handle(ErrorMessage message)
+		{
+			var error = string.Format("{0} @{1}{2}{3}{2}", message.Error, DateTime.Now.ToString("HH:mm:ss"), Environment.NewLine, message.Details);
+			errorLog.Insert(0,error);
+			NotifyOfPropertyChange(() => ErrorLog);
+
+		}
 		public void Handle(StartingTestRun message)
 		{
 			Failures.Clear();
 			ClearInfo();
 		}
+
 		public string Info
 		{
 			get { return info.ToString(); }
+		}
+
+		public string ErrorLog
+		{
+			get { return errorLog.ToString(); }
 		}
 
 		public void ClearInfo()
@@ -149,6 +164,12 @@ namespace ConeTinue.ViewModels
 				return;
 			SelectedFailure = failure;
 
+		}
+
+		public void Handle(ClearErrorLog message)
+		{
+			errorLog.Clear();
+			NotifyOfPropertyChange(() => ErrorLog);
 		}
 	}
 }

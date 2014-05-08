@@ -97,9 +97,9 @@ namespace ConeTinue.Domain.CrossDomain
 			Task.Factory.StartNew(() => eventAggregator.Publish(new StatusMessage(message)));
 		}
 
-		public void ReportError(string error)
+		public void ReportError(string error, string details)
 		{
-			Task.Factory.StartNew(() => eventAggregator.Publish(new ErrorMessage(error)));
+			Task.Factory.StartNew(() => eventAggregator.Publish(new ErrorMessage(error, details)));
 		}
 
 		public void ReportInfo(string info)

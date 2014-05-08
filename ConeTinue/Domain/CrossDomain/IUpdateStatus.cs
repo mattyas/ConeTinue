@@ -20,7 +20,7 @@ namespace ConeTinue.Domain.CrossDomain
 		void SetStatus(string message);
 
 		[OperationContract]
-		void ReportError(string error);
+		void ReportError(string error, string details);
 
 		[OperationContract]
 		void ReportInfo(string info);

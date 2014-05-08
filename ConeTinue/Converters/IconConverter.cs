@@ -45,6 +45,7 @@ namespace ConeTinue.Converters
 				case Icon.Info:
 					return CreateImageFromPath("onebit_47.png");
 				case Icon.Error:
+				case Icon.ClearErrorLog:
 					return CreateImageFromPath("onebit_49.png");
 				case Icon.VisualStudio:
 					return CreateImageFromPath("onebit_02.png");

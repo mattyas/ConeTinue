@@ -123,7 +123,8 @@ namespace ConeTinue.ViewModels
 				
 						).Build(),
 					new RibbonGroupBuilder("Extras").WithItems(
-						new RibbonButtonViewModel("Trigger TestRun Done (aborted) event", () => eventAggregator.Publish(new TestRunDone(TestRunType.Aborted)), Icon.AbortTestRun, "X")
+						new RibbonButtonViewModel("Trigger TestRun Done (aborted) event", () => eventAggregator.Publish(new TestRunDone(TestRunType.Aborted)), Icon.AbortTestRun, "X"),
+						new RibbonButtonViewModel("Clear error log", () => eventAggregator.Publish(new ClearErrorLog()), Icon.ClearErrorLog, "C")
 					).Build()
 					).Build()
 				};

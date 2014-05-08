@@ -18,6 +18,7 @@ namespace TestSamples
 			public RowBuilder<ManyTests> Test()
 			{
 				var tests = new RowBuilder<ManyTests>();
+				Assume.That(() => false);
 				for (int j = 0; j < 100;j++ )
 					for (int i = 0; i < 300; i++)
 					{

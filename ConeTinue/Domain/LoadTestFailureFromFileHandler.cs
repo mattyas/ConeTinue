@@ -29,7 +29,7 @@ namespace ConeTinue.Domain
 			}
 			catch (Exception ex)
 			{
-				eventAggregator.Publish(new ErrorMessage(ex.ToString()));
+				eventAggregator.Publish(new ErrorMessage("Failed to load tests from failed tests", ex.ToString()));
 			}
 
 		}

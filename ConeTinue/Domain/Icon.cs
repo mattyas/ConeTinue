@@ -21,6 +21,7 @@ namespace ConeTinue.Domain
 		Category,
 		VisualStudio,
 		RunFast,
-		LoadTestSessionFromFailedTests
+		LoadTestSessionFromFailedTests,
+		ClearErrorLog
 	}
 }

@@ -150,5 +150,12 @@
             </i:Interaction.Behaviors>
             <TextBox Text="{Binding Info, Mode=OneWay}" IsReadOnly="True" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" />
         </TabItem>
-    </TabControl>
+		<TabItem Header="Error log" KeyTipService.KeyTip="9">
+			<i:Interaction.Behaviors>
+				<Controls:SelectTabOnKeyTipBehavior />
+			</i:Interaction.Behaviors>
+			<TextBox Text="{Binding ErrorLog, Mode=OneWay}" IsReadOnly="True" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" />
+		</TabItem>
+
+	</TabControl>
 </UserControl>

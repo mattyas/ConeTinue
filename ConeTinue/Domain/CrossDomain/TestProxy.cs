@@ -35,11 +35,11 @@ namespace ConeTinue.Domain.CrossDomain
 					}, new[] { assembly });
 				return tests.ToList();
 			}
-			catch (Exception)
+			catch (Exception ex)
 			{
 				using (var client = new RemotingClient(MyId))
 				{
-					client.UpdateStatus.ReportError("Failed to load " + AssemblyPath);
+					client.UpdateStatus.ReportError("Failed to load " + AssemblyPath, ex.ToString());
 				}
 				return new List<TestInfo>();
 			}
@@ -76,7 +76,7 @@ namespace ConeTinue.Domain.CrossDomain
 				}
 				catch (Exception ex)
 				{
-					client.UpdateStatus.ReportError(ex.ToString());
+					client.UpdateStatus.ReportError("Failed to run tests", ex.ToString());
 					return false;
 				}
 				finally
