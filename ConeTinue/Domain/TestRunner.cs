@@ -44,13 +44,18 @@ namespace ConeTinue.Domain
 				if (isReloading)
 					return;
 				isReloading = true;
-				eventAggregator.Publish(new StatusMessage("Loading assembly"));
-				eventAggregator.Publish(new StartingTestRun(TestRunType.FindTests));
-				testRunner.FindTests(TestAssemblies);
-				isReloading = false;
+				try
+				{
+					eventAggregator.Publish(new StatusMessage("Loading assembly"));
+					eventAggregator.Publish(new StartingTestRun(TestRunType.FindTests));
+					testRunner.FindTests(TestAssemblies);
+				}
+				finally
+				{
+					isReloading = false;	
+				}
 				eventAggregator.Publish(new TestRunDone(TestRunType.FindTests));
 			});
-
 		}
 
 		public void Dispose()
