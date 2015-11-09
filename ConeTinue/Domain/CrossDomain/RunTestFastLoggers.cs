@@ -107,7 +107,7 @@ namespace ConeTinue.Domain.CrossDomain
 		}
 
 		public void Done() {infoWriter.SetCurrentTest(null); }
-		public void WriteInfo(Action<TextWriter> output)
+		public void WriteInfo(Action<ISessionWriter> output)
 		{
 			output(infoWriter);
 		}

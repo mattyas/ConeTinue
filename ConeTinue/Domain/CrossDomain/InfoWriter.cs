@@ -1,10 +1,11 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using Cone.Runners;
 
 namespace ConeTinue.Domain.CrossDomain
 {
-	public class InfoWriter : TextWriter
+	public class InfoWriter : TextWriter, ISessionWriter
 	{
 		private readonly Action<string> write;
 
@@ -26,8 +27,22 @@ namespace ConeTinue.Domain.CrossDomain
 		{
 			write = info => stringBuilder.Append(info);
 		}
+        public void Important(string format, params object[] args)
+        {
+            WriteLine(string.Format(format, args));
+        }
 
-		public override void Write(string value)
+        public void Info(string format, params object[] args)
+        {
+            WriteLine(string.Format(format, args));
+        }
+
+        public void NewLine()
+        {
+            WriteLine("");
+        }
+
+        public override void Write(string value)
 		{
 			if (currentTestKey != lastTestKey)
 			{

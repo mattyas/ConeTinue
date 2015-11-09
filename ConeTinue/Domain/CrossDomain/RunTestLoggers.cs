@@ -86,7 +86,7 @@ namespace ConeTinue.Domain.CrossDomain
 		public void EndSuite() { }
 
 		public void Done() {}
-		public void WriteInfo(Action<TextWriter> output)
+		public void WriteInfo(Action<ISessionWriter> output)
 		{
 			output(infoWriter);
 		}

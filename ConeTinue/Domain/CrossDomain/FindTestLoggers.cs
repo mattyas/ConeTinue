@@ -31,10 +31,47 @@ namespace ConeTinue.Domain.CrossDomain
 		{
 			this.tests = tests;
 		}
-
-		public void WriteInfo(Action<TextWriter> output){ output(Console.Out); }
+        public void WriteInfo(Action<ISessionWriter> output) { output(new ConsoleWriter()); }
 		public void BeginSession() { }
 		public ISuiteLogger BeginSuite(IConeSuite suite) { return this; }
 		public void EndSession() { }
 	}
+    public class ConsoleWriter : ISessionWriter
+    {
+        private class Color : IDisposable
+        {
+            ConsoleColor color;
+            public Color(ConsoleColor newColor)
+            {
+                color = Console.ForegroundColor;
+                Console.ForegroundColor = newColor;
+            }
+
+            public void Dispose()
+            {
+                Console.ForegroundColor = color;
+            }
+        }
+        public void Important(string format, params object[] args)
+        {
+            using (new Color(ConsoleColor.Red))
+                Console.WriteLine(format, args);
+        }
+
+        public void Info(string format, params object[] args)
+        {
+            using (new Color(ConsoleColor.Yellow))
+                Console.WriteLine(format, args);
+        }
+
+        public void NewLine()
+        {
+            Console.WriteLine();
+        }
+
+        public void Write(string format, params object[] args)
+        {
+            Console.WriteLine(format, args);
+        }
+    }
 }
