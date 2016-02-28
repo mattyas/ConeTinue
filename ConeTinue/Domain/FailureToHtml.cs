@@ -14,23 +14,17 @@ namespace ConeTinue.Domain
 			var stackFrame = selectedStackFrame;
 			if (stackFrame == null)
 			{
-				var sb = new StringBuilder();
-				sb.Append("<html>");
-				sb.Append("<h1>");
-				sb.Append(failure.TestName);
-				sb.Append("</h1>");
-				sb.Append(failure.Message);
-				sb.Append("<hr />");
-				foreach (var stack in failure.StackTrace)
-				{
-					sb.Append(stack);
-					sb.AppendLine("<br />");
-				}
-				sb.Append("</html>");
-				return sb.ToString();
+				return GetStackTraceAsHtml(failure);
 			}
-			string readAllText = File.ReadAllText(stackFrame.File);
-
+			string readAllText;
+			try
+			{
+				readAllText = File.ReadAllText(stackFrame.File);
+			}
+			catch (Exception)
+			{
+				return GetStackTraceAsHtml(failure);
+			}
 
 			string codeAsHtml = new External.XtractPro.Text.CSharpSyntaxHighlighter
 				{
@@ -43,6 +37,24 @@ namespace ConeTinue.Domain
 				}.Process(readAllText).Replace("<!--" + (stackFrame.Line) + "-->", "<div id=\"the_error\"><h1>" + failure.TestName + "</h1>" + failure.Message.Replace("\n", "<br />") + "</div>");
 
 			return docTemplate.Replace("[error-id]", stackFrame.Line.ToString()) + codeAsHtml + docTemplateEnd.Replace("[line-before-error]", Math.Max(1, stackFrame.Line - 3).ToString());
+		}
+
+		private static string GetStackTraceAsHtml(TestFailure failure)
+		{
+			var sb = new StringBuilder();
+			sb.Append("<html>");
+			sb.Append("<h1>");
+			sb.Append(failure.TestName);
+			sb.Append("</h1>");
+			sb.Append(failure.Message);
+			sb.Append("<hr />");
+			foreach (var stack in failure.StackTrace)
+			{
+				sb.Append(stack);
+				sb.AppendLine("<br />");
+			}
+			sb.Append("</html>");
+			return sb.ToString();
 		}
 
 		private const string docTemplate = @"<html>

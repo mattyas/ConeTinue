@@ -20,7 +20,6 @@ namespace ConeTinue.Domain.CrossDomain
 			this.failed = failed;
 			this.setTime = setTime;
 			stopwatch = new Stopwatch();
-			stopwatch.Restart();
 		}
 
 		private void SetTime()
@@ -28,6 +27,13 @@ namespace ConeTinue.Domain.CrossDomain
 			stopwatch.Stop();
 			setTime(stopwatch.Elapsed);
 		}
+
+		public void BeginTest()
+		{
+			stopwatch.Restart();
+			update(TestStatus.Success);
+		}
+
 		public void Failure(ConeTestFailure failure)
 		{
 			failed(failure);
@@ -77,7 +83,6 @@ namespace ConeTinue.Domain.CrossDomain
 				return new RunTestsTestLogger(_ => { }, _ => { }, _ => {});
 
 			infoWriter.SetCurrentTest(testKey);
-			updateStatus.Update(testKey, TestStatus.Running);
 			return new RunTestsTestLogger(status => updateStatus.Update(testKey, status),
 			                              failure => updateStatus.Failed(new TestFailure(failure, testKey)),
 										  timeSpan => updateStatus.UpdateTestTime(testKey, timeSpan));

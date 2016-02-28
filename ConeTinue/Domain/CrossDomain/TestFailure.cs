@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Cone;
+using Cone.Core;
 
 namespace ConeTinue.Domain.CrossDomain
 {
@@ -29,7 +30,7 @@ namespace ConeTinue.Domain.CrossDomain
 		public string Message { get; private set; }
 		public string TestName { get; private set; }
 		public TestKey TestKey { get; private set; }
-		public bool HasSource { get { return StackTrace.Any(x => x.HasSource); } }
+		public bool HasSource { get { return Enumerable.Any(StackTrace, x => x.HasSource); } }
 		public TestFailureStack[] StackTrace { get; private set; }
 		public TestFailure(string context, string message, string testName, TestKey testKey, string file, int line, int column)
 		{

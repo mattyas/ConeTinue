@@ -20,7 +20,6 @@ namespace ConeTinue.Domain.CrossDomain
 			this.failed = failed;
 			this.setTime = setTime;
 			stopwatch = new Stopwatch();
-			stopwatch.Restart();
 		}
 
 		private void SetTime()
@@ -28,6 +27,13 @@ namespace ConeTinue.Domain.CrossDomain
 			stopwatch.Stop();
 			setTime(stopwatch.Elapsed);
 		}
+
+		public void BeginTest()
+		{
+			stopwatch.Restart();
+			update(TestStatus.Running);
+		}
+
 		public void Failure(ConeTestFailure failure)
 		{
 			failed(failure);
