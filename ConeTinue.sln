@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConeTinue", "ConeTinue\ConeTinue.csproj", "{40E1947D-E0B5-4C99-827D-10F6AAEA1E89}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSamples", "TestSamples\TestSamples.csproj", "{C814E042-20FB-4341-BC56-FF0C8E005300}"

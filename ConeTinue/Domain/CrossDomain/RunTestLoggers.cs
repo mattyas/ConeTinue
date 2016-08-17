@@ -31,7 +31,7 @@ namespace ConeTinue.Domain.CrossDomain
 		public void BeginTest()
 		{
 			stopwatch.Restart();
-			update(TestStatus.Success);
+			update(TestStatus.Running);
 		}
 
 		public void Failure(ConeTestFailure failure)

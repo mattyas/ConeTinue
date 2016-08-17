@@ -42,7 +42,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Caliburn.Micro.dll</HintPath>
     </Reference>
-    <Reference Include="Cone, Version=2013.1.24.1, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Cone, Version=2015.12.4.1, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Cone.dll</HintPath>
     </Reference>
