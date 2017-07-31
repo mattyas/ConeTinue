@@ -28,7 +28,7 @@ namespace ConeTinue.Domain.CrossDomain
 			setTime(stopwatch.Elapsed);
 		}
 
-		public void BeginTest()
+		public void TestStarted()
 		{
 			stopwatch.Restart();
 			update(TestStatus.Running);
@@ -55,7 +55,7 @@ namespace ConeTinue.Domain.CrossDomain
 			update(TestStatus.Skipped);
 		}
 
-		public void EndTest()
+		public void TestFinished()
 		{
 			SetTime();
 		}

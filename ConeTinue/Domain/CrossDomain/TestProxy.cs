@@ -28,7 +28,7 @@ namespace ConeTinue.Domain.CrossDomain
 			try
 			{
 				assembly = AppDomain.CurrentDomain.Load(AssemblyName.GetAssemblyName(AssemblyPath));
-				new SimpleConeRunner { Workers = 1 } 
+				new SimpleConeRunner(new ConeTestNamer()) { Workers = 1 } 
 					.RunTests(new TestSession(logger)
 					{
 						GetTestExecutor = fixture => new DryRunTestExecutor()
@@ -60,7 +60,7 @@ namespace ConeTinue.Domain.CrossDomain
 					
 					if (outputErrors)
 						Debug.Listeners.Add(consoleTraceListener);
-					new SimpleConeRunner { Workers = 1 }
+					new SimpleConeRunner(new ConeTestNamer()) { Workers = 1 }
 						.RunTests(new TestSession(logger)
 							{
 								ShouldSkipTest = test =>
@@ -103,7 +103,7 @@ namespace ConeTinue.Domain.CrossDomain
 
 				if (outputErrors)
 					Debug.Listeners.Add(consoleTraceListener);
-				new SimpleConeRunner {Workers = 1}
+				new SimpleConeRunner(new ConeTestNamer()) {Workers = 1}
 					.RunTests(new TestSession(logger)
 						{
 							ShouldSkipTest = test =>

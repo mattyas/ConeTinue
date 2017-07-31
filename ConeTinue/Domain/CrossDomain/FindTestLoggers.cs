@@ -10,12 +10,12 @@ namespace ConeTinue.Domain.CrossDomain
 {
 	public class FindTestsLogger : ITestLogger, ISuiteLogger, ISessionLogger
 	{
-		public void BeginTest()	{ }
+		public void TestStarted()	{ }
 		public void Failure(ConeTestFailure failure) { }
 		public void Success() { }
 		public void Pending(string reason) { }
 		public void Skipped() { }
-		public void EndTest() { }
+		public void TestFinished() { }
 
 		public ITestLogger BeginTest(IConeTest test)
 		{

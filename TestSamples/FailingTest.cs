@@ -17,7 +17,7 @@ namespace TestSamples
 			}
 			public RowBuilder<ManyTests> Test()
 			{
-				var tests = new RowBuilder<ManyTests>();
+				var tests = new RowBuilder<ManyTests>(new Cone.Core.ConeTestNamer());
 				for (int j = 0; j < 100;j++ )
 					for (int i = 0; i < 300; i++)
 					{
@@ -111,7 +111,7 @@ namespace TestSamples
 
 				public RowBuilder<Extreme> Test()
 				{
-					var tests = new RowBuilder<Extreme>();
+					var tests = new RowBuilder<Extreme>(new Cone.Core.ConeTestNamer());
 						for (int i = 0; i < 20000; i++)
 						{
 							tests.Add(x => x.is_odd(i));
