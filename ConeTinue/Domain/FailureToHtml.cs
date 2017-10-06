@@ -34,7 +34,7 @@ namespace ConeTinue.Domain
 					ShowLineNumbers = true,
 					LineNumberSpaces = 4,
 					ShowRtf = false,
-				}.Process(readAllText).Replace("<!--" + (stackFrame.Line) + "-->", "<div id=\"the_error\"><h1>" + failure.TestName + "</h1>" + failure.Message.Replace("\n", "<br />") + "</div>");
+				}.Process(readAllText).Replace("<!--" + (stackFrame.Line) + "-->", "<div id=\"the_error\"><h1>" + failure.TestName + "</h1><span style=\"font-family: 'Courier New'\">" + failure.Message.Replace("\n", "<br />") + "</span></div>");
 
 			return docTemplate.Replace("[error-id]", stackFrame.Line.ToString()) + codeAsHtml + docTemplateEnd.Replace("[line-before-error]", Math.Max(1, stackFrame.Line - 3).ToString());
 		}

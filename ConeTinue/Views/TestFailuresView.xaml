@@ -15,7 +15,7 @@
             <i:Interaction.Behaviors>
                 <Controls:SelectTabOnKeyTipBehavior />
             </i:Interaction.Behaviors>
-            <ListBox x:Name="Failures" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch" VirtualizingStackPanel.IsVirtualizing="True" SelectedItem="{Binding SelectedFailure}">
+            <ListBox x:Name="Failures" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch" VirtualizingStackPanel.IsVirtualizing="True" SelectedItem="{Binding SelectedFailure}" FontFamily="Courier New">
                 <i:Interaction.Behaviors>
                     <Controls:AutoScrollToSelected />
                 </i:Interaction.Behaviors>
