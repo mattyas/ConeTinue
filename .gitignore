@@ -28,3 +28,7 @@ obj/
 
 # global
 *.log
+/.vs/ConeTinue/v15/Server/sqlite3/storage.ide-wal
+/.vs/ConeTinue/v15/Server/sqlite3/storage.ide-shm
+/.vs/ConeTinue/v15/Server/sqlite3/storage.ide
+/.vs/ConeTinue/v15/Server/sqlite3/db.lock
