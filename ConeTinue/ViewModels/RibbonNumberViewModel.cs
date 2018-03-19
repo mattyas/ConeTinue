@@ -5,11 +5,11 @@ using ConeTinue.Domain;
 
 namespace ConeTinue.ViewModels
 {
-    public class RibbonCheckboxViewModel : PropertyChangedBase, IHaveDisplayName, IRibbonControlViewModel
+    public class RibbonNumberViewModel : PropertyChangedBase, IHaveDisplayName, IRibbonControlViewModel
     {
-        private readonly IChangeValue<bool> settingsStrategy;
+        private readonly IChangeValue<int> settingsStrategy;
         private readonly string propertyName;
-        private bool GetValue()
+        private int GetValue()
         {
             return settingsStrategy.GetValue(propertyName);
         }
@@ -17,11 +17,11 @@ namespace ConeTinue.ViewModels
         public string KeyTip { get; private set; }
         public Icon SmallIcon { get; set; }
 
-        public RibbonCheckboxViewModel(string displayName, IChangeValue<bool> settingsStrategy, Expression<Func<bool>> property, string keyTip, Icon smallIcon) : this(displayName, settingsStrategy, property.GetMemberInfo().Name, keyTip, smallIcon)
+        public RibbonNumberViewModel(string displayName, IChangeValue<int> settingsStrategy, Expression<Func<int>> property, string keyTip, Icon smallIcon) : this(displayName, settingsStrategy, property.GetMemberInfo().Name, keyTip, smallIcon)
         {
 
         }
-        public RibbonCheckboxViewModel(string displayName, IChangeValue<bool> settingsStrategy, string propertyName, string keyTip, Icon smallIcon)
+        public RibbonNumberViewModel(string displayName, IChangeValue<int> settingsStrategy, string propertyName, string keyTip, Icon smallIcon)
         {
             this.propertyName = propertyName;
             this.settingsStrategy = settingsStrategy;
@@ -31,7 +31,7 @@ namespace ConeTinue.ViewModels
             SmallIcon = smallIcon;
         }
 
-        public bool IsChecked
+        public int Value
         {
             get { return GetValue(); }
             set

@@ -45,7 +45,7 @@ namespace ConeTinue.Domain.CrossDomain
 			}
 		}
 
-		public bool RunTests(HashSet<string> testsToRun, bool outputErrors)
+		public bool RunTests(HashSet<string> testsToRun, bool outputErrors, int workers)
 		{
 			ShouldRunTests = true;
 			using (var client = new RemotingClient(MyId))
@@ -60,7 +60,7 @@ namespace ConeTinue.Domain.CrossDomain
 					
 					if (outputErrors)
 						Debug.Listeners.Add(consoleTraceListener);
-					new SimpleConeRunner(new ConeTestNamer()) { Workers = 1 }
+					new SimpleConeRunner(new ConeTestNamer()) { Workers = workers }
 						.RunTests(new TestSession(logger)
 							{
 								ShouldSkipTest = test =>
@@ -89,7 +89,7 @@ namespace ConeTinue.Domain.CrossDomain
 			return true;
 		}
 
-		public FastTestReport RunTestsFast(HashSet<string> testsToRun, bool outputErrors)
+		public FastTestReport RunTestsFast(HashSet<string> testsToRun, bool outputErrors, int workers)
 		{
 			ShouldRunTests = true;
 			var stringBuilder = new StringBuilder();
@@ -103,7 +103,7 @@ namespace ConeTinue.Domain.CrossDomain
 
 				if (outputErrors)
 					Debug.Listeners.Add(consoleTraceListener);
-				new SimpleConeRunner(new ConeTestNamer()) {Workers = 1}
+				new SimpleConeRunner(new ConeTestNamer()) {Workers = workers}
 					.RunTests(new TestSession(logger)
 						{
 							ShouldSkipTest = test =>

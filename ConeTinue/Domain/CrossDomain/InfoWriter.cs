@@ -239,5 +239,15 @@ namespace ConeTinue.Domain.CrossDomain
 		{
 			currentTestKey = testKey;
 		}
-	}
+
+        public void Important(string message)
+        {
+            Important(message, new object[0]);
+        }
+
+        public void Info(string message)
+        {
+            Info(message, new object[0]);
+        }
+    }
 }

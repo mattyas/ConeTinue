@@ -34,9 +34,11 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Caliburn.Micro.dll</HintPath>
     </Reference>
-    <Reference Include="Cone, Version=2014.9.1.1, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Cone.dll</HintPath>
+    <Reference Include="Cone, Version=2018.1.24.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Cone.2018.1.24\lib\net45\Cone.dll</HintPath>
+    </Reference>
+    <Reference Include="Cone.Expectations, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Cone.2018.1.24\lib\net45\Cone.Expectations.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -55,6 +57,9 @@
       <Project>{40e1947d-e0b5-4c99-827d-10f6aaea1e89}</Project>
       <Name>ConeTinue</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

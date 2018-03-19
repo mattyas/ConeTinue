@@ -119,9 +119,10 @@ namespace ConeTinue.ViewModels
 						new RibbonCheckboxViewModel("Run tests on reload", settingsStrategy, () => settingsStrategy.RunTestsOnReload, "R", Icon.Run ),
 						new RibbonCheckboxViewModel("All tests expanded when loaded", settingsStrategy, () => settingsStrategy.DefaultAllExpanded, "E", Icon.AllVisible),
 						new RibbonCheckboxViewModel("Output debug and error text", settingsStrategy, () => settingsStrategy.OutputDebugAndError, "O", Icon.Error),
-						new RibbonCheckboxViewModel("Pin ConeTinue output in Visual Studio", settingsStrategy, () => settingsStrategy.PinOutputInVisualStudio, "P", Icon.VisualStudio)
-				
-						).Build(),
+						new RibbonCheckboxViewModel("Pin ConeTinue output in Visual Studio", settingsStrategy, () => settingsStrategy.PinOutputInVisualStudio, "P", Icon.VisualStudio),
+                        new RibbonNumberViewModel("Worker count", settingsStrategy, () => settingsStrategy.WorkerCount, "W", Icon.Info)
+
+                        ).Build(),
 					new RibbonGroupBuilder("Extras").WithItems(
 						new RibbonButtonViewModel("Trigger TestRun Done (aborted) event", () => eventAggregator.Publish(new TestRunDone(TestRunType.Aborted)), Icon.AbortTestRun, "X"),
 						new RibbonButtonViewModel("Clear error log", () => eventAggregator.Publish(new ClearErrorLog()), Icon.ClearErrorLog, "C")

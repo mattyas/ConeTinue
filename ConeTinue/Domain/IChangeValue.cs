@@ -2,9 +2,9 @@ using System.ComponentModel;
 
 namespace ConeTinue.Domain
 {
-	public interface IChangeValue : INotifyPropertyChanged
+	public interface IChangeValue<T> : INotifyPropertyChanged
 	{
-		bool GetValue(string propertyName);
-		void SetValue(string propertyName, bool value);
+		T GetValue(string propertyName);
+		void SetValue(string propertyName, T value);
 	}
 }

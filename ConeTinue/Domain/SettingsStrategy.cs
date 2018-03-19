@@ -3,8 +3,8 @@ using Caliburn.Micro;
 
 namespace ConeTinue.Domain
 {
-	public class SettingsStrategy : PropertyChangedBase, IChangeValue
-	{
+	public class SettingsStrategy : PropertyChangedBase, IChangeValue<bool>, IChangeValue<int>
+    {
 		public bool ReloadTestAssembliesWhenChanged
 		{
 			get { return Properties.Settings.Default.ReloadTestAssembliesWhenChanged; }
@@ -41,7 +41,9 @@ namespace ConeTinue.Domain
 			get { return Properties.Settings.Default.PinOutputInVisualStudio; }
 		}
 
-		public void AddRecent(string path)
+        public int WorkerCount { get { return Properties.Settings.Default.WorkerCount; } }
+
+        public void AddRecent(string path)
 		{
 			var recent = Properties.Settings.Default.Recent;
 			if (recent.Contains(path))
@@ -52,17 +54,29 @@ namespace ConeTinue.Domain
 			Properties.Settings.Default.Save();
 			NotifyOfPropertyChange(() => Recent);
 		}
-		public bool GetValue(string propertyName)
+		bool IChangeValue<bool>.GetValue(string propertyName)
 		{
 			return (bool)Properties.Settings.Default[propertyName];
 		}
 
-		public void SetValue(string propertyName, bool value)
+		void IChangeValue<bool>.SetValue(string propertyName, bool value)
 		{
 			Properties.Settings.Default[propertyName] = value;
 			Properties.Settings.Default.Save();
 			NotifyOfPropertyChange(propertyName);
 		}
 
-	}
+        int IChangeValue<int>.GetValue(string propertyName)
+        {
+            return (int)Properties.Settings.Default[propertyName];
+        }
+
+        void IChangeValue<int>.SetValue(string propertyName, int value)
+        {
+            Properties.Settings.Default[propertyName] = value;
+            Properties.Settings.Default.Save();
+            NotifyOfPropertyChange(propertyName);
+        }
+
+    }
 }

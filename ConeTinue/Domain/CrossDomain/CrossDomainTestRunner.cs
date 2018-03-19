@@ -3,7 +3,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using Caliburn.Micro;
 using ConeTinue.ViewModels.Messages;
 
@@ -103,7 +102,7 @@ namespace ConeTinue.Domain.CrossDomain
 				var testsToRun = new HashSet<string>(testItemHolder.GetTestToRun(domain.Proxy.TestAssembly).Select(x => x.FullName));
 				if (testsToRun.Count == 0)
 					continue;
-				var report = domain.Proxy.RunTestsFast(testsToRun, settings.OutputDebugAndError);
+				var report = domain.Proxy.RunTestsFast(testsToRun, settings.OutputDebugAndError, settings.WorkerCount);
 				reports.Add(report);
 			}
 			foreach (var report in reports)
@@ -140,7 +139,7 @@ namespace ConeTinue.Domain.CrossDomain
 					var testsToRun = new HashSet<string>(testItemHolder.GetTestToRun(domain.Proxy.TestAssembly).Select(x => x.FullName));
 					if (testsToRun.Count == 0)
 						continue;
-					if (!domain.Proxy.RunTests(testsToRun, settings.OutputDebugAndError))
+					if (!domain.Proxy.RunTests(testsToRun, settings.OutputDebugAndError, settings.WorkerCount))
 						return false;
 				}
 				return true;

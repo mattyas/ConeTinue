@@ -42,13 +42,11 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Caliburn.Micro.dll</HintPath>
     </Reference>
-    <Reference Include="Cone, Version=2015.12.4.1, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Cone.dll</HintPath>
+    <Reference Include="Cone, Version=2018.1.24.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Cone.2018.1.24\lib\net45\Cone.dll</HintPath>
     </Reference>
-    <Reference Include="Cone.Extensions, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Cone.Extensions.dll</HintPath>
+    <Reference Include="Cone.Expectations, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Cone.2018.1.24\lib\net45\Cone.Expectations.dll</HintPath>
     </Reference>
     <Reference Include="EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <EmbedInteropTypes>True</EmbedInteropTypes>
@@ -193,6 +191,7 @@
     <Compile Include="ViewModels\RibbonCheckboxViewModel.cs" />
     <Compile Include="ViewModels\RibbonGroupViewModel.cs" />
     <Compile Include="ViewModels\RibbonMenuItemViewModel.cs" />
+    <Compile Include="ViewModels\RibbonNumberViewModel.cs" />
     <Compile Include="ViewModels\RibbonSplitButtonViewModel.cs" />
     <Compile Include="ViewModels\RibbonSplitMenuItemViewModel.cs" />
     <Compile Include="ViewModels\RibbonTabViewModel.cs" />
@@ -202,6 +201,9 @@
     <Compile Include="ViewModels\TestSessionViewModel.cs" />
     <Compile Include="ViewModels\TestsViewModel.cs" />
     <Compile Include="Domain\CrossDomain\UpdateStatus.cs" />
+    <Compile Include="Views\RibbonNumberView.xaml.cs">
+      <DependentUpon>RibbonNumberView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\RibbonSplitMenuItemView.xaml.cs">
       <DependentUpon>RibbonSplitMenuItemView.xaml</DependentUpon>
     </Compile>
@@ -267,6 +269,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -278,6 +281,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="ConeTinueResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\RibbonNumberView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

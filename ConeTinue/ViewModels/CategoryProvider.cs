@@ -7,7 +7,7 @@ using ConeTinue.ViewModels.Messages;
 
 namespace ConeTinue.ViewModels
 {
-	public class CategoryProvider : PropertyChangedBase, IRibbonControlViewProvider, IHandle<NewTestsLoaded>, IChangeValue
+	public class CategoryProvider : PropertyChangedBase, IRibbonControlViewProvider, IHandle<NewTestsLoaded>, IChangeValue<bool>
 	{
 		private readonly IEventAggregator eventAggregator;
 		private readonly SettingsStrategy settingsStrategy;

@@ -74,5 +74,20 @@ namespace ConeTinue.Domain.CrossDomain
         {
             Console.WriteLine(format, args);
         }
+
+        public void Write(string message)
+        {
+            Write(message,new object[0]);
+        }
+
+        public void Important(string message)
+        {
+            Important(message, new object[0]);
+        }
+
+        public void Info(string message)
+        {
+            Info(message, new object[0]);
+        }
     }
 }
