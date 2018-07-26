@@ -41,7 +41,7 @@ namespace ConeTinue.Domain.CrossDomain
     {
         private class Color : IDisposable
         {
-            ConsoleColor color;
+            private readonly ConsoleColor color;
             public Color(ConsoleColor newColor)
             {
                 color = Console.ForegroundColor;

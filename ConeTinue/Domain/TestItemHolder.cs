@@ -156,10 +156,9 @@ namespace ConeTinue.Domain
 		{
 			foreach (var testItem in oldTestItemHolder.allItems.Values)
 			{
-				TestItem item;
-				if (!allItems.TryGetValue(testItem.TestKey, out item))
-					continue;
-				item.IsExpanded = testItem.IsExpanded;
+                if (!allItems.TryGetValue(testItem.TestKey, out TestItem item))
+                    continue;
+                item.IsExpanded = testItem.IsExpanded;
 				item.IsInLatestRun = testItem.IsInLatestRun;
 				item.IsSelected = testItem.IsSelected;
 				item.Status = testItem.Status;

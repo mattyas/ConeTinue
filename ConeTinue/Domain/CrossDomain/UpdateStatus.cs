@@ -34,20 +34,18 @@ namespace ConeTinue.Domain.CrossDomain
 		{
 			while (work || statusUpdateQueue.Count != 0)
 			{
-				Tuple<TestKey,TestStatus> workItem;
-				if (!statusUpdateQueue.TryDequeue(out workItem))
-				{
-					if (!work)
-						return;
-					Thread.Sleep(200);
-					continue;
-				}
-				UpdateCount(workItem.Item2);
+                if (!statusUpdateQueue.TryDequeue(out Tuple<TestKey, TestStatus> workItem))
+                {
+                    if (!work)
+                        return;
+                    Thread.Sleep(200);
+                    continue;
+                }
+                UpdateCount(workItem.Item2);
 
-				TestItem item;
-				if (!tests.TryGetTest(workItem.Item1, out item))
-					return;
-				item.Status = workItem.Item2;
+                if (!tests.TryGetTest(workItem.Item1, out TestItem item))
+                    return;
+                item.Status = workItem.Item2;
 			}
 		}
 
@@ -55,19 +53,17 @@ namespace ConeTinue.Domain.CrossDomain
 		{
 			while (work || timingUpdateQueue.Count != 0)
 			{
-				Tuple<TestKey, TimeSpan> workItem;
-				if (!timingUpdateQueue.TryDequeue(out workItem))
-				{
-					if (!work)
-						return;
-					Thread.Sleep(200);
-					continue;
-				}
+                if (!timingUpdateQueue.TryDequeue(out Tuple<TestKey, TimeSpan> workItem))
+                {
+                    if (!work)
+                        return;
+                    Thread.Sleep(200);
+                    continue;
+                }
 
-				TestItem item;
-				if (tests.TryGetTest(workItem.Item1, out item))
-					item.RunTime = workItem.Item2;
-			}
+                if (tests.TryGetTest(workItem.Item1, out TestItem item))
+                    item.RunTime = workItem.Item2;
+            }
 		}
 
 		private TestItemHolder tests;

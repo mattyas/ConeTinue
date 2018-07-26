@@ -14,6 +14,8 @@
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <ExpressionBlendVersion>5.2.30810.0</ExpressionBlendVersion>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -42,11 +44,11 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Caliburn.Micro.dll</HintPath>
     </Reference>
-    <Reference Include="Cone, Version=2018.1.24.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Cone.2018.1.24\lib\net45\Cone.dll</HintPath>
+    <Reference Include="Cone, Version=2018.7.10.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Cone.2018.7.10\lib\net45\Cone.dll</HintPath>
     </Reference>
     <Reference Include="Cone.Expectations, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Cone.2018.1.24\lib\net45\Cone.Expectations.dll</HintPath>
+      <HintPath>..\packages\Cone.2018.7.10\lib\net45\Cone.Expectations.dll</HintPath>
     </Reference>
     <Reference Include="EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <EmbedInteropTypes>True</EmbedInteropTypes>
@@ -57,6 +59,9 @@
     <Reference Include="Microsoft.Windows.Shell, Version=3.5.41019.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Microsoft.Windows.Shell.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Cone.2018.7.10\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="RibbonControlsLibrary, Version=4.0.0.11019, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -408,6 +413,13 @@
     <Resource Include="conetastic_color.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\Cone.2018.7.10\build\Cone.targets" Condition="Exists('..\packages\Cone.2018.7.10\build\Cone.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Cone.2018.7.10\build\Cone.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Cone.2018.7.10\build\Cone.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

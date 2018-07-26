@@ -34,10 +34,9 @@ namespace ConeTinue.Domain
 
 		private static void Transform(TestItem test, TestItemHolder destination, bool isExpanded)
 		{
-			TestItem dummy;
-			if (destination.TryGetTest(test.TestKey, out dummy))
-				return;
-			test.IsExpanded = isExpanded;
+            if (destination.TryGetTest(test.TestKey, out TestItem dummy))
+                return;
+            test.IsExpanded = isExpanded;
 			TestItem path = destination;
 			destination.RegisterTest(test);
 

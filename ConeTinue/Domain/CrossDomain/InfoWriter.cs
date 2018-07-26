@@ -37,11 +37,6 @@ namespace ConeTinue.Domain.CrossDomain
             WriteLine(string.Format(format, args));
         }
 
-        public void NewLine()
-        {
-            WriteLine("");
-        }
-
         public override void Write(string value)
 		{
 			if (currentTestKey != lastTestKey)

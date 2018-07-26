@@ -69,10 +69,9 @@ namespace ConeTinue.Domain.CrossDomain
 
 		private AppDomainHolder LoadDomain(TestAssembly testAssembly)
 		{
-			AppDomainHolder domainHolder;
-			if (domains.TryGetValue(testAssembly, out domainHolder))
-				domainHolder.Dispose();
-			domainHolder = new AppDomainHolder(testAssembly, myId);
+            if (domains.TryGetValue(testAssembly, out AppDomainHolder domainHolder))
+                domainHolder.Dispose();
+            domainHolder = new AppDomainHolder(testAssembly, myId);
 			domains[testAssembly] = domainHolder;
 			return domainHolder;
 		}
@@ -109,18 +108,16 @@ namespace ConeTinue.Domain.CrossDomain
 			{
 				foreach (var statuses in report.TestStatuses)
 				{
-					TestItem item;
-					if (testItemHolder.TryGetTest(statuses.Key, out item))
-						item.Status = statuses.Value;
-				}
+                    if (testItemHolder.TryGetTest(statuses.Key, out TestItem item))
+                        item.Status = statuses.Value;
+                }
 				if (report.HasError)
 					eventAggregator.Publish(new ErrorMessage("Failed running tests",report.Error));
 				foreach (var testTime in report.TestTimes)
 				{
-					TestItem item;
-					if (testItemHolder.TryGetTest(testTime.Key, out item))
-						item.RunTime = testTime.Value;
-				}
+                    if (testItemHolder.TryGetTest(testTime.Key, out TestItem item))
+                        item.RunTime = testTime.Value;
+                }
 				eventAggregator.Publish(new InfoMessage(report.Output));
 				eventAggregator.Publish(new ReportFailures(report.Failures.ToArray()));
 			}
