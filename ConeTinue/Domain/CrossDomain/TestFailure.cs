@@ -57,9 +57,9 @@ namespace ConeTinue.Domain.CrossDomain
 					Column = x.Column,
 					File = x.File,
 					Line = x.Line,
-					FullName = x.Method.DeclaringType.FullName,
-					ClassName = x.Method.DeclaringType.Name,
-					MethodName = string.Format("{0}({1})", x.Method.Name, string.Join(", ", x.Method.GetParameters().Select(y => string.Format("{0} {1}", y.ParameterType.Name, y.Name)))),
+					FullName = x.Method?.DeclaringType?.FullName,
+					ClassName = x.Method?.DeclaringType?.Name,
+					MethodName = string.Format("{0}({1})", x.Method?.Name, string.Join(", ", x.Method.GetParameters().Select(y => string.Format("{0} {1}", y.ParameterType.Name, y.Name)))),
 				}).ToArray();
 			Context = failure.Context;
 			Message = failure.Message;
