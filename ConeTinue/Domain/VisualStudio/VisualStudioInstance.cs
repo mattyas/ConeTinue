@@ -91,7 +91,7 @@ namespace ConeTinue.Domain.VisualStudio
 			try
 			{
 				EnvDTE.Window win = Dte.Windows.Item(EnvDteConstants.vsWindowKindOutput);
-				EnvDTE.OutputWindow ow = win.Object;
+				EnvDTE.OutputWindow ow = (EnvDTE.OutputWindow)win.Object;
 				EnvDTE.OutputWindowPane owPane = null;
 				if (settings.PinOutputInVisualStudio)
 					ow.Parent.AutoHides = false;

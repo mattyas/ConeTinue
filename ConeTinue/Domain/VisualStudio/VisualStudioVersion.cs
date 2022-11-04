@@ -12,6 +12,7 @@ namespace ConeTinue.Domain.VisualStudio
 			{
 				return new[]
 					{
+						new VisualStudioVersion {Key = "VisualStudio.DTE.17.0", Name = "Visual Studio 2022", Is80Compatible = true},
                         new VisualStudioVersion {Key = "VisualStudio.DTE.16.0", Name = "Visual Studio 2019", Is80Compatible = true},
                         new VisualStudioVersion {Key = "VisualStudio.DTE.15.0", Name = "Visual Studio 2017", Is80Compatible = true},
                         new VisualStudioVersion {Key = "VisualStudio.DTE.14.0", Name = "Visual Studio 2015", Is80Compatible = true},
