@@ -2,7 +2,25 @@ using System.Text.RegularExpressions;
 
 namespace ConeTinue.Domain.TestFilters
 {
-	public class FilterOnText : FilterTests
+    public class FilterOnTextWithReplaceUnderscore : FilterTests
+    {
+        private readonly FilterOnText filterOnText;
+
+		public FilterOnTextWithReplaceUnderscore(FilterOnText filterOnText) : base(FilterType.FilterOnText)
+		{
+			this.filterOnText = filterOnText;
+			if (!string.IsNullOrEmpty(filterOnText.Filter))
+				filterOnText.Filter = filterOnText.Filter.Replace("_", " ");
+		}
+
+        public string Filter => filterOnText.Filter;
+
+        public override void Apply(TestItemHolder testItemHolder) => filterOnText.Apply(testItemHolder);
+
+        public override string ToString() => filterOnText.ToString();
+    }
+
+    public class FilterOnText : FilterTests
 	{
 		private readonly bool showWhenMatching;
 
