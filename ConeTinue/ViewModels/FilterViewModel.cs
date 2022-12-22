@@ -41,7 +41,7 @@ namespace ConeTinue.ViewModels
 
 		public bool CanContinueFilterTests
 		{
-			get {return filter.Length != 0; }
+			get { return filter.Length != 0; }
 		}
 
 		public bool CanNewFilterTests
@@ -49,7 +49,7 @@ namespace ConeTinue.ViewModels
 			get { return filter.Length != 0; }
 		}
 
-		
+
 		public void ContinueFilterTests()
 		{
 			FilterTests();
@@ -57,7 +57,7 @@ namespace ConeTinue.ViewModels
 
 		public void FilterTests()
 		{
-			eventAggregator.Publish(new FilterOnText(Filter, ShowWhenMatching));
+			eventAggregator.Publish(new FilterOnTextWithReplaceUnderscore(new FilterOnText(Filter, ShowWhenMatching)));
 			Filter = string.Empty;
 		}
 
